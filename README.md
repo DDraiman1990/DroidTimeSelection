@@ -21,11 +21,12 @@
 As someone who used Android for a long time, I found I really miss selecting time using the Android method. So, I brought it to iOS.
 
 DroidTimeSelection is, well, the Android-way of selecting time.
-It allows using the Clock selector way of picking time:
+
+It allows using the <b>Clock selector</b> way of picking time:
 <p align="center">
   <img src="./Repo/Assets/clockexample.gif"/>
 </p>
-Or the picker (iOS-way) of picking time:
+Or the <b>picker (iOS-way)</b> of picking time:
 <p align="center">
   <img src="./Repo/Assets/pickerexample.gif"/>
 </p>
