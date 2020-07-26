@@ -24,9 +24,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'DroidTimeSelection/Classes/**/*'
   s.swift_version = '5.0'
-  s.resource_bundles = {
-      'DroidTimeSelection' => ['DroidTimeSelection/media/*.png']
-  }
 
   s.frameworks = 'UIKit'
 end
