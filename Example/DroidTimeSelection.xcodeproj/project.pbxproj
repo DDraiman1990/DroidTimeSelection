@@ -43,10 +43,10 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		67FEABA794AB3ABDEA904408 /* Pods-DroidTimeSelection_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroidTimeSelection_Example.release.xcconfig"; path = "Target Support Files/Pods-DroidTimeSelection_Example/Pods-DroidTimeSelection_Example.release.xcconfig"; sourceTree = "<group>"; };
 		97A01874B01446211FB6183D /* Pods_DroidTimeSelection_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DroidTimeSelection_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4CA41A66B5B40090543B198 /* DroidTimeSelection.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = DroidTimeSelection.podspec; path = ../DroidTimeSelection.podspec; sourceTree = "<group>"; };
+		D4CA41A66B5B40090543B198 /* DroidTimeSelection.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DroidTimeSelection.podspec; path = ../DroidTimeSelection.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		DB0F4F55B530CDA825A284BE /* Pods-DroidTimeSelection_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroidTimeSelection_Example.debug.xcconfig"; path = "Target Support Files/Pods-DroidTimeSelection_Example/Pods-DroidTimeSelection_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		E7269E6E347846E5906B4862 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		F4439AABB031EE262976C353 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		E7269E6E347846E5906B4862 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		F4439AABB031EE262976C353 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,11 +102,9 @@
 		607FACD21AFB9204008FA782 /* Example for DroidTimeSelection */ = {
 			isa = PBXGroup;
 			children = (
-				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				607FACD91AFB9204008FA782 /* Main.storyboard */,
-				607FACDC1AFB9204008FA782 /* Images.xcassets */,
-				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				64FA018C24CCA222002472A0 /* Resources */,
+				64FA018B24CCA21D002472A0 /* System */,
+				64FA018A24CCA217002472A0 /* UI */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for DroidTimeSelection";
@@ -148,6 +146,48 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		64FA018A24CCA217002472A0 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				64FA018E24CCA238002472A0 /* ViewControllers */,
+				64FA018D24CCA233002472A0 /* Storyboards */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		64FA018B24CCA21D002472A0 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		64FA018C24CCA222002472A0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				607FACDC1AFB9204008FA782 /* Images.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		64FA018D24CCA233002472A0 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				607FACD91AFB9204008FA782 /* Main.storyboard */,
+				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		64FA018E24CCA238002472A0 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				607FACD71AFB9204008FA782 /* ViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		BC1006725A4091B39325CF52 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,7 +196,6 @@
 				1730A7DEDCADA6ECBB4A5CBE /* Pods-DroidTimeSelection_Tests.debug.xcconfig */,
 				15B4F1F50B52DFEB5C9D4EA6 /* Pods-DroidTimeSelection_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -209,14 +248,16 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0830;
-				ORGANIZATIONNAME = CocoaPods;
+				ORGANIZATIONNAME = "Nexxmark Studio";
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = VL5EGTTRCJ;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = VL5EGTTRCJ;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -227,6 +268,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -419,7 +461,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -465,7 +507,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -478,7 +520,9 @@
 			baseConfigurationReference = DB0F4F55B530CDA825A284BE /* Pods-DroidTimeSelection_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = VL5EGTTRCJ;
 				INFOPLIST_FILE = DroidTimeSelection/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -493,7 +537,9 @@
 			baseConfigurationReference = 67FEABA794AB3ABDEA904408 /* Pods-DroidTimeSelection_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = VL5EGTTRCJ;
 				INFOPLIST_FILE = DroidTimeSelection/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -507,6 +553,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1730A7DEDCADA6ECBB4A5CBE /* Pods-DroidTimeSelection_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = VL5EGTTRCJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -529,6 +576,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 15B4F1F50B52DFEB5C9D4EA6 /* Pods-DroidTimeSelection_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = VL5EGTTRCJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",

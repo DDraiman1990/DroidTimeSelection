@@ -11,6 +11,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
+
 ## Installation
 
 DroidTimeSelection is available through [CocoaPods](https://cocoapods.org). To install
@@ -22,7 +23,7 @@ pod 'DroidTimeSelection'
 
 ## Author
 
-DDraiman1990, ddraiman1990@gmail.com
+DDraiman1990, ddraiman1990@gmail.com a.k.a Nexxmark Studio.
 
 ## License
 

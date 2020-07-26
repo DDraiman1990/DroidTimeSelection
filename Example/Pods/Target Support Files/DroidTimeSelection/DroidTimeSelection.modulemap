@@ -1,0 +1,6 @@
+framework module DroidTimeSelection {
+  umbrella header "DroidTimeSelection-umbrella.h"
+
+  export *
+  module * { export * }
+}

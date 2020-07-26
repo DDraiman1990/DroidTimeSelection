@@ -1,0 +1,22 @@
+{
+  "name": "DroidTimeSelection",
+  "version": "0.1.0",
+  "summary": "A short description of DroidTimeSelection.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/DDraiman1990/DroidTimeSelection",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "DDraiman1990": "ddraiman1990@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/DDraiman1990/DroidTimeSelection.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "DroidTimeSelection/Classes/**/*"
+}
