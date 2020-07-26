@@ -14,6 +14,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		64FA01A624CDFA1E002472A0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 64FA01A524CDFA1E002472A0 /* LICENSE */; };
 		A91BED4BD38F72581F438679 /* Pods_DroidTimeSelection_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97A01874B01446211FB6183D /* Pods_DroidTimeSelection_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,12 +42,12 @@
 		607FACE51AFB9204008FA782 /* DroidTimeSelection_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroidTimeSelection_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		64FA01A524CDFA1E002472A0 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		67FEABA794AB3ABDEA904408 /* Pods-DroidTimeSelection_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroidTimeSelection_Example.release.xcconfig"; path = "Target Support Files/Pods-DroidTimeSelection_Example/Pods-DroidTimeSelection_Example.release.xcconfig"; sourceTree = "<group>"; };
 		97A01874B01446211FB6183D /* Pods_DroidTimeSelection_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DroidTimeSelection_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CA41A66B5B40090543B198 /* DroidTimeSelection.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DroidTimeSelection.podspec; path = ../DroidTimeSelection.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		DB0F4F55B530CDA825A284BE /* Pods-DroidTimeSelection_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroidTimeSelection_Example.debug.xcconfig"; path = "Target Support Files/Pods-DroidTimeSelection_Example/Pods-DroidTimeSelection_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		E7269E6E347846E5906B4862 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		F4439AABB031EE262976C353 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +142,7 @@
 			children = (
 				D4CA41A66B5B40090543B198 /* DroidTimeSelection.podspec */,
 				E7269E6E347846E5906B4862 /* README.md */,
-				F4439AABB031EE262976C353 /* LICENSE */,
+				64FA01A524CDFA1E002472A0 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
@@ -290,6 +291,7 @@
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				64FA01A624CDFA1E002472A0 /* LICENSE in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
