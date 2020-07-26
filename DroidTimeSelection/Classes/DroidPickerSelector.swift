@@ -81,7 +81,7 @@ public class DroidPickerSelector: UIView {
     
     // MARK: - Lifecycle
     
-    public init() {
+    public override init(frame: CGRect) {
         super.init(frame: .zero)
         addSubview(contentStack)
         contentStack.anchor(

@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func onShowTapped(_ sender: Any) {
-        let droidSelection = createDroidSelection()
+        let droidSelection: UIView = createDroidSelection()
         let vc = UIViewController()
         let fakeDimView = UIView()
         fakeDimView.translatesAutoresizingMaskIntoConstraints = false

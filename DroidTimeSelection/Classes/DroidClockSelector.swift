@@ -225,7 +225,7 @@ public class DroidClockSelector: UIView {
     
     // MARK: - Lifecycle
     
-    public init() {
+    public override init(frame: CGRect) {
         super.init(frame: .zero)
         
         layer.addSublayer(middleCircleLayer)

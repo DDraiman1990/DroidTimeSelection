@@ -140,7 +140,7 @@ public class DroidTimeSelection: UIView {
     
     // MARK: - Lifecycle
     
-    public init() {
+    public override init(frame: CGRect) {
         super.init(frame: .zero)
         backgroundColor = .black
         addSubview(contentStack)
