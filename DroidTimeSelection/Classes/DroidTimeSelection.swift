@@ -142,6 +142,15 @@ public class DroidTimeSelection: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: .zero)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         backgroundColor = .black
         addSubview(contentStack)
         contentStack.anchor(
@@ -175,10 +184,6 @@ public class DroidTimeSelection: UIView {
         }
         
         reset()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Helpers

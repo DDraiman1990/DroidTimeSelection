@@ -56,6 +56,7 @@ public class DroidPickerSelector: UIView {
         label.textAlignment = .center
         label.text = "Set time"
         label.isAccessibilityElement = true
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -83,6 +84,15 @@ public class DroidPickerSelector: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: .zero)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         addSubview(contentStack)
         contentStack.anchor(
             in: self,
@@ -90,10 +100,6 @@ public class DroidPickerSelector: UIView {
         contentStack.addArrangedSubview(titleLabel)
         contentStack.addArrangedSubview(timeDatePicker)
         onConfigChanged()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Helpers
