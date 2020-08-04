@@ -10,11 +10,46 @@ import UIKit
 import DroidTimeSelection
 
 class ViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
     @IBOutlet private weak var timeLabel: UILabel!
     @IBOutlet private weak var timeFormatSwitch: UISwitch!
     
-    private var timeFormat: DroidTimeFormat = .twelve
+    // MARK: - Configurations
+    
+    private var config: DroidTimeSelectionConfiguration = {
+        var config = DroidTimeSelectionConfiguration()
+        
+        //Menu
+//        config.okButtonText = "TEST"
+//        config.okButtonColor = .green
+//        config.cancelButtonColor = .red
+//        config.cancelButtonText = "STAP"
+//        config.modeButtonColor = .blue
+        
+        //Clock
+//        config.clockConfig.amPmFont = .systemFont(ofSize: 20, weight: .black)
+//        config.clockConfig.highlightedTimeColor = .red
+//        config.clockConfig.largeSelectionColor = .blue
+//        config.clockConfig.largeSelectionFont = .systemFont(ofSize: 10, weight: .regular)
+//        config.clockConfig.selectionBackgroundColor = .gray
+//        config.clockConfig.selectionIndicatorColor = .magenta
+//        config.clockConfig.smallSelectionColor = .magenta
+//        config.clockConfig.smallSelectionFont = .systemFont(ofSize: 10, weight: .light)
+//        config.clockConfig.timeColor = .cyan
+//        config.clockConfig.timeFont = .systemFont(ofSize: 15, weight: .black)
+        return config
+    }()
+    
+    private var timeFormat: DroidTimeFormat = .twelve {
+        didSet {
+            config.timeFormat = timeFormat
+        }
+    }
     private var time: Time = .init()
+    
+    // MARK: - Formatters
     
     private let timeFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
@@ -23,10 +58,14 @@ class ViewController: UIViewController {
         return formatter
     }()
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTime(with: time)
     }
+    
+    // MARK: - Helpers
     
     private func setTime(with time: Time) {
         self.time = time
@@ -35,7 +74,7 @@ class ViewController: UIViewController {
     
     private func createDroidSelection() -> DroidTimeSelection {
         let droidSelection = DroidTimeSelection()
-        droidSelection.config.timeFormat = self.timeFormat
+        droidSelection.config = config
         droidSelection.set(time: time)
         droidSelection.onCancelTapped = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
@@ -48,6 +87,8 @@ class ViewController: UIViewController {
         }
         return droidSelection
     }
+    
+    // MARK: - Actions
 
     @IBAction private func onShowTapped(_ sender: Any) {
         let droidSelection: UIView = createDroidSelection()

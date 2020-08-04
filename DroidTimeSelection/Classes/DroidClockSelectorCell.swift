@@ -22,6 +22,7 @@ internal class DroidClockSelectorCell: UICollectionViewCell {
         label.numberOfLines = 1
         label.textAlignment = .center
         label.isAccessibilityElement = true
+        label.minimumScaleFactor = 0.25
         return label
     }()
     
