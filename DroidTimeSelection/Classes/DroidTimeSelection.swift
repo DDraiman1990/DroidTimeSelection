@@ -8,7 +8,103 @@
 
 import UIKit
 
+@IBDesignable
 public class DroidTimeSelection: UIView {
+    
+    // MARK: - Storyboard
+    
+    @IBInspectable
+    public var cancelButtonColor: UIColor = .white {
+        didSet {
+            self.config.cancelButtonColor = self.cancelButtonColor
+        }
+    }
+    @IBInspectable
+    public var okButtonColor: UIColor = .white {
+        didSet {
+            self.config.okButtonColor = self.okButtonColor
+        }
+    }
+    @IBInspectable
+    public var modeButtonColor: UIColor = .white {
+        didSet {
+            self.config.modeButtonColor = self.modeButtonColor
+        }
+    }
+    @IBInspectable
+    public var okButtonText: String = "OK" {
+        didSet {
+            self.config.okButtonText = self.okButtonText
+        }
+    }
+    @IBInspectable
+    public var cancelButtonText: String = "CANCEL" {
+        didSet {
+            self.config.cancelButtonText = self.cancelButtonText
+        }
+    }
+    @IBInspectable
+    public var timeFormat24H: Bool = true {
+        didSet {
+            self.config.timeFormat = timeFormat24H ? .twentyFour : .twelve
+        }
+    }
+    
+    @IBInspectable
+    public var pickerTitleColor: UIColor = .white {
+        didSet {
+            self.config.pickerConfig.titleColor = self.pickerTitleColor
+        }
+    }
+    @IBInspectable
+    public var pickerColor: UIColor = .white {
+        didSet {
+            self.config.pickerConfig.pickerColor = self.pickerColor
+        }
+    }
+    @IBInspectable
+    public var pickerTitleText: String = "Set Time" {
+        didSet {
+            self.config.pickerConfig.titleText = self.pickerTitleText
+        }
+    }
+    
+    @IBInspectable
+    public var clockLargeSelectionColor: UIColor = .white {
+        didSet {
+            self.config.clockConfig.largeSelectionColor = self.clockLargeSelectionColor
+        }
+    }
+    @IBInspectable
+    public var clockSmallSelectionColor: UIColor = .gray {
+        didSet {
+            self.config.clockConfig.smallSelectionColor = self.clockSmallSelectionColor
+        }
+    }
+    @IBInspectable
+    public var clockTimeColor: UIColor = .gray {
+        didSet {
+            self.config.clockConfig.timeColor = self.clockTimeColor
+        }
+    }
+    @IBInspectable
+    public var clockHighlightedTimeColor: UIColor = .white {
+        didSet {
+            self.config.clockConfig.highlightedTimeColor = self.clockHighlightedTimeColor
+        }
+    }
+    @IBInspectable
+    public var clockSelectionIndicatorColor: UIColor = .systemTeal {
+        didSet {
+            self.config.clockConfig.selectionIndicatorColor = self.clockSelectionIndicatorColor
+        }
+    }
+    @IBInspectable
+    public var clockSelectionBackgroundColor: UIColor = .clear {
+        didSet {
+            self.config.clockConfig.selectionBackgroundColor = self.clockSelectionBackgroundColor
+        }
+    }
     
     // MARK: - Public Properties
     
