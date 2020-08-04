@@ -9,7 +9,53 @@
 import UIKit
 
 @available(iOS 10.0, *)
+@IBDesignable
 public class DroidClockSelector: UIView {
+    
+    // MARK: - Storyboard
+    
+    @IBInspectable
+    public var largeSelectionColor: UIColor = .white {
+        didSet {
+            self.config.largeSelectionColor = self.largeSelectionColor
+        }
+    }
+    @IBInspectable
+    public var smallSelectionColor: UIColor = .gray {
+        didSet {
+            self.config.smallSelectionColor = self.smallSelectionColor
+        }
+    }
+    @IBInspectable
+    public var timeColor: UIColor = .gray {
+        didSet {
+            self.config.timeColor = self.timeColor
+        }
+    }
+    @IBInspectable
+    public var highlightedTimeColor: UIColor = .white {
+        didSet {
+            self.config.highlightedTimeColor = self.highlightedTimeColor
+        }
+    }
+    @IBInspectable
+    public var selectionIndicatorColor: UIColor = .systemTeal {
+        didSet {
+            self.config.selectionIndicatorColor = self.selectionIndicatorColor
+        }
+    }
+    @IBInspectable
+    public var selectionBackgroundColor: UIColor = .clear {
+        didSet {
+            self.config.selectionBackgroundColor = self.selectionBackgroundColor
+        }
+    }
+    @IBInspectable
+    public var timeFormat24H: Bool = true {
+        didSet {
+            self.config.timeFormat = timeFormat24H ? .twentyFour : .twelve
+        }
+    }
     
     // MARK: - Public Properties
     

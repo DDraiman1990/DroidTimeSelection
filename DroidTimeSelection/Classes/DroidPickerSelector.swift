@@ -8,8 +8,36 @@
 
 import UIKit
 
+@IBDesignable
 public class DroidPickerSelector: UIView {
     
+    // MARK: - Storyboard
+    
+    @IBInspectable
+    public var titleColor: UIColor = .white {
+        didSet {
+            self.config.titleColor = self.titleColor
+        }
+    }
+    @IBInspectable
+    public var pickerColor: UIColor = .white {
+        didSet {
+            self.config.pickerColor = self.pickerColor
+        }
+    }
+    @IBInspectable
+    public var titleText: String = "Set Time" {
+        didSet {
+            self.config.titleText = self.titleText
+        }
+    }
+    @IBInspectable
+    public var timeFormat24H: Bool = true {
+        didSet {
+            self.config.timeFormat = timeFormat24H ? .twentyFour : .twelve
+        }
+    }
+
     // MARK: - Public Properties
     public var time: Time {
         return currentTime
