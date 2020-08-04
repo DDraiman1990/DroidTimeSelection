@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/DroidTimeSelection.svg?style=flat)](https://cocoapods.org/pods/DroidTimeSelection)
 
 <p align="center">
-  <img src="./Repo/Assets/droidtimeselectionlogo.png" height="70%" width="200"/>
+  <img src="https://raw.githubusercontent.com/DDraiman1990/DroidTimeSelection/master/Repo/Assets/droidtimeselectionlogo.png" height="70%" width="200"/>
 </p>
 
 ## Coming Soon:
@@ -24,11 +24,11 @@ DroidTimeSelection is, well, the Android-way of selecting time.
 
 It allows using the <b>Clock selector</b> way of picking time:
 <p align="center">
-  <img src="./Repo/Assets/clockexample.gif"/>
+  <img src="https://raw.githubusercontent.com/DDraiman1990/DroidTimeSelection/master/Repo/Assets/clockexample.gif"/>
 </p>
 Or the <b>picker (iOS-way)</b> of picking time:
 <p align="center">
-  <img src="./Repo/Assets/pickerexample.gif"/>
+  <img src="https://raw.githubusercontent.com/DDraiman1990/DroidTimeSelection/master/Repo/Assets/pickerexample.gif"/>
 </p>
 
 ## Installation
