@@ -125,7 +125,7 @@ public class DroidTimeSelection: UIView {
         stack.axis = .horizontal
         stack.alignment = .fill
         stack.distribution = .fill
-        stack.spacing = 8
+        stack.spacing = 20
         return stack
     }()
     
@@ -197,8 +197,10 @@ public class DroidTimeSelection: UIView {
         modeButton.tintColor = config.modeButtonColor
         okButton.setTitle(config.okButtonText, for: .normal)
         cancelButton.setTitle(config.cancelButtonText, for: .normal)
-        clockSelectorConfig.timeFormat = config.timeFormat
-        hourPickerConfig.timeFormat = config.timeFormat
+        config.clockConfig.timeFormat = config.timeFormat
+        config.pickerConfig.timeFormat = config.timeFormat
+        clockSelectorConfig = config.clockConfig
+        hourPickerConfig = config.pickerConfig
     }
     
     // MARK: - Public Interface

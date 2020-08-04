@@ -15,6 +15,11 @@ public struct DroidTimeSelectionConfiguration: Equatable {
     public var okButtonText: String = "OK"
     public var cancelButtonText: String = "CANCEL"
     public var timeFormat: DroidTimeFormat = .twentyFour
+    
+    public var clockConfig: DroidClockSelectorConfiguration = .init()
+    public var pickerConfig: DroidPickerSelectorConfiguration = .init()
+    
+    public init() {}
 }
 
 public struct DroidClockSelectorConfiguration: Equatable {
@@ -29,6 +34,8 @@ public struct DroidClockSelectorConfiguration: Equatable {
     public var selectionIndicatorColor: UIColor = .systemTeal
     public var selectionBackgroundColor: UIColor = .clear
     public var timeFormat: DroidTimeFormat = .twentyFour
+    
+    public init() {}
 }
 
 public struct DroidPickerSelectorConfiguration: Equatable {
@@ -37,4 +44,6 @@ public struct DroidPickerSelectorConfiguration: Equatable {
     public var pickerColor: UIColor = .white
     public var titleText: String = "Set Time"
     public var timeFormat: DroidTimeFormat = .twentyFour
+    
+    public init() {}
 }

@@ -704,15 +704,17 @@ extension DroidClockSelector: UICollectionViewDelegate, UICollectionViewDataSour
                         return UICollectionViewCell()
                     }
                     let selection = minutes[indexPath.row]
+                    let shouldDisplayCustomization = selection % 5 == 0
                     let label =
-                        selection % 5 == 0 ?
+                         shouldDisplayCustomization ?
                             cellTimeFormatter.string(
                                 from: TimeInterval(selection * 3600)) ?? "N/A"
                             : ""
+                    let bgColor: UIColor = shouldDisplayCustomization ? config.selectionBackgroundColor : .clear
                     cell.setup(
                         label: label,
                         value: selection,
-                        bgColor: config.selectionBackgroundColor,
+                        bgColor: bgColor,
                         titleColor: config.largeSelectionColor,
                         titleFont: config.largeSelectionFont)
                 }
