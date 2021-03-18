@@ -62,6 +62,11 @@ public class DroidPickerSelector: UIView {
     private lazy var timeDatePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .time
+        if #available(iOS 13.4, *) {
+            picker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
         picker.setValue(config.pickerColor, forKeyPath: "textColor")
         picker.addTarget(
             self,
