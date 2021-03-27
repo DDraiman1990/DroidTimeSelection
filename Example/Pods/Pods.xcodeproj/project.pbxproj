@@ -10,15 +10,19 @@
 		08D55F814C1DD6C36DB5DE8731CE0A59 /* DroidTimeSelection-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E3DD36136D03C1C7195A9EF533C49C /* DroidTimeSelection-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3A4681F93F11667924EC6F378052E38D /* Pods-DroidTimeSelection_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 523BFC4089B7F8588046C9FF5397991C /* Pods-DroidTimeSelection_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3A61CF62FD4FA56C9631EB2C0B382C80 /* DroidTimeSelection-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EF99E4B1A2DFD7C4515BF774F8507AA8 /* DroidTimeSelection-dummy.m */; };
+		642873762607B5B300F7A49E /* DroidFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642873752607B5B300F7A49E /* DroidFactory.swift */; };
+		6428737E2607C08700F7A49E /* DroidHybridSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428737D2607C08700F7A49E /* DroidHybridSelector.swift */; };
+		64287386260801FE00F7A49E /* Droid+Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64287385260801FE00F7A49E /* Droid+Formatters.swift */; };
+		6428738B2608083C00F7A49E /* DroidViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6428738A2608083C00F7A49E /* DroidViewControllers.swift */; };
+		64AB2DA02608B6E8007CDA5D /* DroidTimeSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB2D9F2608B6E8007CDA5D /* DroidTimeSelector.swift */; };
 		64FA019324CCA49C002472A0 /* DroidClockSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA018F24CCA49C002472A0 /* DroidClockSelectorCell.swift */; };
 		64FA019424CCA49C002472A0 /* DroidClockSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019024CCA49C002472A0 /* DroidClockSelector.swift */; };
 		64FA019524CCA49C002472A0 /* DroidPickerSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019124CCA49C002472A0 /* DroidPickerSelector.swift */; };
-		64FA019624CCA49C002472A0 /* DroidTimeSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019224CCA49C002472A0 /* DroidTimeSelection.swift */; };
 		64FA019824CCA556002472A0 /* DroidCollectionViewCircularLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019724CCA556002472A0 /* DroidCollectionViewCircularLayout.swift */; };
 		64FA019A24CCA595002472A0 /* Droid+Anchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019924CCA595002472A0 /* Droid+Anchor.swift */; };
 		64FA019C24CCA6F3002472A0 /* media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FA019B24CCA6F3002472A0 /* media.xcassets */; };
 		64FA019E24CCDF19002472A0 /* DroidTimeFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019D24CCDF19002472A0 /* DroidTimeFormat.swift */; };
-		64FA01A024CDDE93002472A0 /* DroidConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019F24CDDE93002472A0 /* DroidConfigurations.swift */; };
+		64FA01A024CDDE93002472A0 /* DroidStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA019F24CDDE93002472A0 /* DroidStyles.swift */; };
 		64FA01A224CDE217002472A0 /* Droid+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA01A124CDE217002472A0 /* Droid+Time.swift */; };
 		64FA01A424CDE339002472A0 /* Droid+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA01A324CDE339002472A0 /* Droid+Constants.swift */; };
 		678AD2A1803F6F492CB4E6A2E9872C6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
@@ -58,15 +62,19 @@
 		4C3F2FE3E9A26A5C0D9CCDC446AFB705 /* Pods-DroidTimeSelection_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroidTimeSelection_Example.release.xcconfig"; sourceTree = "<group>"; };
 		523BFC4089B7F8588046C9FF5397991C /* Pods-DroidTimeSelection_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DroidTimeSelection_Tests-umbrella.h"; sourceTree = "<group>"; };
 		5906268B794B39BDC46E05E114139B1C /* Pods-DroidTimeSelection_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroidTimeSelection_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		642873752607B5B300F7A49E /* DroidFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroidFactory.swift; sourceTree = "<group>"; };
+		6428737D2607C08700F7A49E /* DroidHybridSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroidHybridSelector.swift; sourceTree = "<group>"; };
+		64287385260801FE00F7A49E /* Droid+Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Droid+Formatters.swift"; sourceTree = "<group>"; };
+		6428738A2608083C00F7A49E /* DroidViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroidViewControllers.swift; sourceTree = "<group>"; };
+		64AB2D9F2608B6E8007CDA5D /* DroidTimeSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroidTimeSelector.swift; sourceTree = "<group>"; };
 		64FA018F24CCA49C002472A0 /* DroidClockSelectorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DroidClockSelectorCell.swift; path = DroidTimeSelection/Classes/DroidClockSelectorCell.swift; sourceTree = "<group>"; };
 		64FA019024CCA49C002472A0 /* DroidClockSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DroidClockSelector.swift; path = DroidTimeSelection/Classes/DroidClockSelector.swift; sourceTree = "<group>"; };
 		64FA019124CCA49C002472A0 /* DroidPickerSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DroidPickerSelector.swift; path = DroidTimeSelection/Classes/DroidPickerSelector.swift; sourceTree = "<group>"; };
-		64FA019224CCA49C002472A0 /* DroidTimeSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DroidTimeSelection.swift; path = DroidTimeSelection/Classes/DroidTimeSelection.swift; sourceTree = "<group>"; };
 		64FA019724CCA556002472A0 /* DroidCollectionViewCircularLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DroidCollectionViewCircularLayout.swift; path = DroidTimeSelection/Classes/DroidCollectionViewCircularLayout.swift; sourceTree = "<group>"; };
 		64FA019924CCA595002472A0 /* Droid+Anchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Droid+Anchor.swift"; path = "DroidTimeSelection/Classes/Droid+Anchor.swift"; sourceTree = "<group>"; };
 		64FA019B24CCA6F3002472A0 /* media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = media.xcassets; path = DroidTimeSelection/Assets/media.xcassets; sourceTree = "<group>"; };
 		64FA019D24CCDF19002472A0 /* DroidTimeFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DroidTimeFormat.swift; path = DroidTimeSelection/Classes/DroidTimeFormat.swift; sourceTree = "<group>"; };
-		64FA019F24CDDE93002472A0 /* DroidConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DroidConfigurations.swift; path = DroidTimeSelection/Classes/DroidConfigurations.swift; sourceTree = "<group>"; };
+		64FA019F24CDDE93002472A0 /* DroidStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DroidStyles.swift; path = DroidTimeSelection/Classes/DroidStyles.swift; sourceTree = "<group>"; };
 		64FA01A124CDE217002472A0 /* Droid+Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Droid+Time.swift"; path = "DroidTimeSelection/Classes/Droid+Time.swift"; sourceTree = "<group>"; };
 		64FA01A324CDE339002472A0 /* Droid+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Droid+Constants.swift"; path = "DroidTimeSelection/Classes/Droid+Constants.swift"; sourceTree = "<group>"; };
 		662DAF9C5C582D53BC5BAC1F191E13A9 /* Pods-DroidTimeSelection_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DroidTimeSelection_Example.modulemap"; sourceTree = "<group>"; };
@@ -180,19 +188,23 @@
 		886B72DD4255D712BA0E9DA497E64A9C /* DroidTimeSelection */ = {
 			isa = PBXGroup;
 			children = (
+				6428737D2607C08700F7A49E /* DroidHybridSelector.swift */,
+				642873752607B5B300F7A49E /* DroidFactory.swift */,
 				64FA019924CCA595002472A0 /* Droid+Anchor.swift */,
 				64FA01A324CDE339002472A0 /* Droid+Constants.swift */,
 				64FA01A124CDE217002472A0 /* Droid+Time.swift */,
 				64FA019024CCA49C002472A0 /* DroidClockSelector.swift */,
 				64FA018F24CCA49C002472A0 /* DroidClockSelectorCell.swift */,
 				64FA019724CCA556002472A0 /* DroidCollectionViewCircularLayout.swift */,
-				64FA019F24CDDE93002472A0 /* DroidConfigurations.swift */,
+				64FA019F24CDDE93002472A0 /* DroidStyles.swift */,
 				64FA019124CCA49C002472A0 /* DroidPickerSelector.swift */,
 				64FA019D24CCDF19002472A0 /* DroidTimeFormat.swift */,
-				64FA019224CCA49C002472A0 /* DroidTimeSelection.swift */,
 				64FA019B24CCA6F3002472A0 /* media.xcassets */,
 				8E0F41D73BC88CC8DBFCB30EA30634C1 /* Pod */,
 				293595F05683BB679AC6A9BFE3E2136F /* Support Files */,
+				64287385260801FE00F7A49E /* Droid+Formatters.swift */,
+				6428738A2608083C00F7A49E /* DroidViewControllers.swift */,
+				64AB2D9F2608B6E8007CDA5D /* DroidTimeSelector.swift */,
 			);
 			name = DroidTimeSelection;
 			path = ../..;
@@ -417,14 +429,18 @@
 				64FA019524CCA49C002472A0 /* DroidPickerSelector.swift in Sources */,
 				64FA019824CCA556002472A0 /* DroidCollectionViewCircularLayout.swift in Sources */,
 				64FA01A424CDE339002472A0 /* Droid+Constants.swift in Sources */,
-				64FA01A024CDDE93002472A0 /* DroidConfigurations.swift in Sources */,
+				642873762607B5B300F7A49E /* DroidFactory.swift in Sources */,
+				64FA01A024CDDE93002472A0 /* DroidStyles.swift in Sources */,
 				64FA019E24CCDF19002472A0 /* DroidTimeFormat.swift in Sources */,
 				64FA019324CCA49C002472A0 /* DroidClockSelectorCell.swift in Sources */,
-				64FA019624CCA49C002472A0 /* DroidTimeSelection.swift in Sources */,
+				6428738B2608083C00F7A49E /* DroidViewControllers.swift in Sources */,
+				6428737E2607C08700F7A49E /* DroidHybridSelector.swift in Sources */,
 				3A61CF62FD4FA56C9631EB2C0B382C80 /* DroidTimeSelection-dummy.m in Sources */,
+				64AB2DA02608B6E8007CDA5D /* DroidTimeSelector.swift in Sources */,
 				64FA01A224CDE217002472A0 /* Droid+Time.swift in Sources */,
 				64FA019424CCA49C002472A0 /* DroidClockSelector.swift in Sources */,
 				64FA019A24CCA595002472A0 /* Droid+Anchor.swift in Sources */,
+				64287386260801FE00F7A49E /* Droid+Formatters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

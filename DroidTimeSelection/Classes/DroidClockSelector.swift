@@ -12,52 +12,74 @@ import UIKit
 @IBDesignable
 public class DroidClockSelector: UIView {
     
+    enum SelectionMode {
+        case hour, minutes
+    }
+    
     // MARK: - Storyboard
     
-    @IBInspectable
-    public var largeSelectionColor: UIColor = .white {
+    @IBInspectable var outerCircleTextColor: UIColor = .white {
         didSet {
-            self.config.largeSelectionColor = self.largeSelectionColor
+            style.outerCircleTextColor = outerCircleTextColor
         }
     }
-    @IBInspectable
-    public var smallSelectionColor: UIColor = .gray {
+    @IBInspectable var outerCircleBackgroundColor: UIColor = .clear {
         didSet {
-            self.config.smallSelectionColor = self.smallSelectionColor
+            style.outerCircleBackgroundColor = outerCircleBackgroundColor
         }
     }
-    @IBInspectable
-    public var timeColor: UIColor = .gray {
+    @IBInspectable var innerCircleTextColor: UIColor = .gray {
         didSet {
-            self.config.timeColor = self.timeColor
+            style.innerCircleTextColor = innerCircleTextColor
         }
     }
-    @IBInspectable
-    public var highlightedTimeColor: UIColor = .white {
+    @IBInspectable var innerCircleBackgroundColor: UIColor = .clear {
         didSet {
-            self.config.highlightedTimeColor = self.highlightedTimeColor
+            style.innerCircleBackgroundColor = innerCircleBackgroundColor
         }
     }
-    @IBInspectable
-    public var selectionIndicatorColor: UIColor = .systemTeal {
+    @IBInspectable var selectedColor: UIColor = .white {
         didSet {
-            self.config.selectionIndicatorColor = self.selectionIndicatorColor
+            style.selectedColor = selectedColor
         }
     }
-    @IBInspectable
-    public var selectionBackgroundColor: UIColor = .clear {
+    @IBInspectable var deselectedColor: UIColor = .gray {
         didSet {
-            self.config.selectionBackgroundColor = self.selectionBackgroundColor
+            style.deselectedColor = deselectedColor
         }
     }
-    @IBInspectable
-    public var timeFormat24H: Bool = true {
+    @IBInspectable var indicatorColor: UIColor = .blue {
         didSet {
-            self.config.timeFormat = timeFormat24H ? .twentyFour : .twelve
+            style.indicatorColor = indicatorColor
+        }
+    }
+    @IBInspectable var selectionFont: UIFont = .systemFont(ofSize: 18) {
+        didSet {
+            style.selectionFont = selectionFont
+        }
+    }
+    @IBInspectable var numbersFont: UIFont = .systemFont(ofSize: 18) {
+        didSet {
+            style.numbersFont = numbersFont
         }
     }
     
     // MARK: - Public Properties
+    
+    /// The style for this selector.
+    public var style: ClockStyle = .init() {
+        didSet {
+            if oldValue != style {
+                onStyleChanged()
+            }
+        }
+    }
+    
+    public var timeFormat: DroidTimeFormat = .twelve {
+        didSet {
+            onTimeFormatChanged()
+        }
+    }
     
     /// The value for this selector.
     public var time: Time {
@@ -67,28 +89,8 @@ public class DroidClockSelector: UIView {
     /// Will be called for every change in Time value.
     public var onSelectionChanged: ((Time) -> Void)?
     
-    /// The configuration for this selector.
-    public var config: DroidClockSelectorConfiguration {
-        get {
-            return currentConfig
-        }
-        set {
-            let shouldRefresh = newValue != currentConfig
-            currentConfig = newValue
-            if shouldRefresh {
-                onConfigChanged()
-            }
-        }
-    }
-    
     // MARK: - Private Properties
     
-    private enum SelectionMode {
-        case hour, minutes
-    }
-    
-    private var currentConfig: DroidClockSelectorConfiguration = .init()
-
     private var currentTime: Time = .init() {
         didSet {
             onSelectionChanged?(currentTime)
@@ -105,35 +107,10 @@ public class DroidClockSelector: UIView {
     private let innerHours = [0, 13, 14, 15, 16, 17, 18, 19, 20 ,21, 22, 23]
     private let minutes = Array(0...59)
     
-    // MARK: - Formatters
-    
-    private let cellTimeFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour]
-        formatter.zeroFormattingBehavior = .pad //Depending on AM or PM
-        return formatter
-    }()
-    
-    private let hourFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour]
-        formatter.zeroFormattingBehavior = .default //Depending on AM or PM
-        return formatter
-    }()
-    
-    private let minutesFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute]
-        formatter.zeroFormattingBehavior = .pad //Depending on AM or PM
-        return formatter
-    }()
-    
     // MARK: - UI Components
     
     private lazy var hoursLabelButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = config.timeFont
-        button.setTitleColor(config.timeColor, for: .normal)
         button.addTarget(self, action: #selector(onHoursTapped), for: .touchUpInside)
         button.isAccessibilityElement = true
         button.accessibilityLabel
@@ -143,8 +120,6 @@ public class DroidClockSelector: UIView {
     
     private lazy var minutesLabelButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = config.timeFont
-        button.setTitleColor(config.timeColor, for: .normal)
         button.addTarget(self, action: #selector(onMinutesTapped), for: .touchUpInside)
         button.isAccessibilityElement = true
         button.accessibilityLabel
@@ -152,37 +127,42 @@ public class DroidClockSelector: UIView {
         return button
     }()
     
-    private let timeStack: UIStackView = {
+    private lazy var timeStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .center
         stack.distribution = .fill
         stack.spacing = 0
+        stack.addArrangedSubview(hoursLabelButton)
+        stack.addArrangedSubview(minutesLabelButton)
         return stack
     }()
     
-    private let timeContentStack: UIStackView = {
+    private lazy var timeContentStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .center
         stack.distribution = .fill
         stack.spacing = 8
+        stack.addArrangedSubview(timeStack)
+        stack.addArrangedSubview(amPmStack)
+        stack.anchor(height: 80)
         return stack
     }()
     
-    private let amPmStack: UIStackView = {
+    private lazy var amPmStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .fillEqually
         stack.spacing = 4
+        stack.addArrangedSubview(amLabelButton)
+        stack.addArrangedSubview(pmLabelButton)
         return stack
     }()
     
     private lazy var amLabelButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = config.amPmFont
-        button.setTitleColor(config.timeColor, for: .normal)
         button.addTarget(self, action: #selector(onAmTapped), for: .touchUpInside)
         button.setTitle("AM", for: .normal)
         button.isAccessibilityElement = true
@@ -193,8 +173,6 @@ public class DroidClockSelector: UIView {
     
     private lazy var pmLabelButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = config.amPmFont
-        button.setTitleColor(config.timeColor, for: .normal)
         button.addTarget(self, action: #selector(onPmTapped), for: .touchUpInside)
         button.setTitle("PM", for: .normal)
         button.isAccessibilityElement = true
@@ -206,15 +184,12 @@ public class DroidClockSelector: UIView {
     private lazy var selectionLineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.fillColor = UIColor.clear.cgColor
-        layer.strokeColor = config.selectionIndicatorColor.cgColor
         layer.lineWidth = 1.0
         return layer
     }()
     
     private lazy var selectionCircleLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.fillColor = config.selectionIndicatorColor.cgColor
-        layer.strokeColor = config.selectionIndicatorColor.cgColor
         layer.lineWidth = 1.0
         return layer
     }()
@@ -229,15 +204,14 @@ public class DroidClockSelector: UIView {
     
     private lazy var middleCircleLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.fillColor = config.selectionIndicatorColor.cgColor
-        layer.strokeColor = config.selectionIndicatorColor.cgColor
         layer.lineWidth = 1.0
         return layer
     }()
     
     private lazy var topColorView: UIView = {
         let view = UIView()
-        view.backgroundColor = config.selectionIndicatorColor
+        view.layer.mask = selectionCircleLayer
+        view.layer.addSublayer(selectionCircleCenterLayer)
         return view
     }()
     
@@ -284,8 +258,6 @@ public class DroidClockSelector: UIView {
     private func commonInit() {
         layer.addSublayer(middleCircleLayer)
         layer.addSublayer(selectionLineLayer)
-        topColorView.layer.mask = selectionCircleLayer
-        topColorView.layer.addSublayer(selectionCircleCenterLayer)
         
         //Time stack must be added last to be on top of topColorView
         addSubview(collectionView)
@@ -294,7 +266,7 @@ public class DroidClockSelector: UIView {
 
         timeContentStack.anchor(
             in: self,
-            to: [.top],
+            to: [.top()],
             padding: .init(top: 28, left: 28, bottom: 28, right: 28))
         timeContentStack
             .widthAnchor
@@ -308,7 +280,7 @@ public class DroidClockSelector: UIView {
             .isActive = true
         collectionView.anchor(
             in: self,
-            to: [.bottom, .left, .right],
+            to: [.bottom(), .left(), .right()],
             padding: .init(top: 12, left: 12, bottom: 12, right: 12))
         collectionView
             .widthAnchor
@@ -317,18 +289,11 @@ public class DroidClockSelector: UIView {
             .isActive = true
         topColorView.anchor(in: self)
         
-        timeStack.addArrangedSubview(hoursLabelButton)
-        timeStack.addArrangedSubview(minutesLabelButton)
-        timeContentStack.addArrangedSubview(timeStack)
-        timeContentStack.addArrangedSubview(amPmStack)
-        
-        amPmStack.addArrangedSubview(amLabelButton)
-        amPmStack.addArrangedSubview(pmLabelButton)
-        
         self.addGestureRecognizer(touchRecognizer)
         self.addGestureRecognizer(panRecognizer)
         self.isUserInteractionEnabled = true
         
+        onStyleChanged()
         reset()
     }
     
@@ -347,7 +312,7 @@ public class DroidClockSelector: UIView {
 
     @objc private func onHoursTapped() {
         changeMode(to: .hour) { _ in
-            switch self.config.timeFormat {
+            switch self.timeFormat {
             case .twelve:
                 self.moveIndicatorToHour(self.time.twelveHoursFormat.hours)
             case .twentyFour:
@@ -358,7 +323,7 @@ public class DroidClockSelector: UIView {
     
     @objc private func onMinutesTapped() {
         changeMode(to: .minutes) { _ in
-            switch self.config.timeFormat {
+            switch self.timeFormat {
             case .twelve:
                 self.moveIndicatorToMinute(self.time.twelveHoursFormat.minutes)
             case .twentyFour:
@@ -406,7 +371,7 @@ public class DroidClockSelector: UIView {
                 switch currentMode {
                 case .hour:
                     changeMode(to: .minutes) { _ in
-                        switch self.config.timeFormat {
+                        switch self.timeFormat {
                         case .twelve:
                             self.moveIndicatorToMinute(self
                                 .time
@@ -440,7 +405,7 @@ public class DroidClockSelector: UIView {
         case .hour:
             selectHour(value: selection.0.value)
             changeMode(to: .minutes) { _ in
-                switch self.config.timeFormat {
+                switch self.timeFormat {
                 case .twelve:
                     self.moveIndicatorToMinute(self.time.twelveHoursFormat.minutes)
                 case .twentyFour:
@@ -472,7 +437,7 @@ public class DroidClockSelector: UIView {
     private func moveIndicatorToHour(_ hour: Int) {
         var index: Array<Int>.Index
         var indexPath: IndexPath
-        if config.timeFormat == .twelve {
+        if timeFormat == .twelve {
             let hour = hour == 0 ? 12 : hour
             index = outerHours.firstIndex(of: hour) ?? 0
             indexPath = IndexPath(item: index, section: 0)
@@ -541,14 +506,14 @@ public class DroidClockSelector: UIView {
     private func moveIndicatorToReflectSelection() {
         switch currentMode {
         case .hour:
-            switch self.config.timeFormat {
+            switch timeFormat {
             case .twelve:
                 self.moveIndicatorToHour(self.time.twelveHoursFormat.hours)
             case .twentyFour:
                 self.moveIndicatorToHour(self.time.twentyFourHoursFormat.hours)
             }
         case .minutes:
-            switch self.config.timeFormat {
+            switch timeFormat {
             case .twelve:
                 self.moveIndicatorToMinute(self.time.twelveHoursFormat.minutes)
             case .twentyFour:
@@ -560,7 +525,7 @@ public class DroidClockSelector: UIView {
     // MARK: - Helpers
     
     private func selectHour(value: Int) {
-        switch config.timeFormat {
+        switch timeFormat {
         case .twelve:
             currentTime.twelveHoursFormat.hours = value
             if value == 12 {
@@ -598,51 +563,61 @@ public class DroidClockSelector: UIView {
         moveIndicatorToReflectSelection()
     }
     
-    private func onConfigChanged() {
+    private func onStyleChanged() {
         reloadData()
         highlight(mode: currentMode)
         
-        selectionLineLayer.strokeColor = config.selectionIndicatorColor.cgColor
-        selectionCircleLayer.fillColor = config.selectionIndicatorColor.cgColor
-        selectionCircleLayer.strokeColor = config.selectionIndicatorColor.cgColor
-        middleCircleLayer.fillColor = config.selectionIndicatorColor.cgColor
-        middleCircleLayer.strokeColor = config.selectionIndicatorColor.cgColor
-        topColorView.backgroundColor = config.selectionIndicatorColor
+        amLabelButton.titleLabel?.font = style.selectionFont.withSize(30)
+        pmLabelButton.titleLabel?.font = style.selectionFont.withSize(30)
+        hoursLabelButton.titleLabel?.font = style.selectionFont.withSize(60)
+        minutesLabelButton.titleLabel?.font = style.selectionFont.withSize(60)
         
+        selectionLineLayer.strokeColor = style.indicatorColor.cgColor
+        selectionCircleLayer.fillColor = style.indicatorColor.cgColor
+        selectionCircleLayer.strokeColor = style.indicatorColor.cgColor
+        middleCircleLayer.fillColor = style.indicatorColor.cgColor
+        middleCircleLayer.strokeColor = style.indicatorColor.cgColor
+        topColorView.backgroundColor = style.indicatorColor
         onTimeFormatChanged()
     }
     
     private func highlight(mode: SelectionMode) {
+        let selectedColor = style.selectedColor
+        let deselectedColor = style.deselectedColor
         hoursLabelButton
-            .setTitleColor(mode == .hour ?
-                config.highlightedTimeColor
-                : config.timeColor, for: .normal)
+            .setTitleColor(
+                mode == .hour ? selectedColor : deselectedColor,
+                for: .normal)
         minutesLabelButton
-            .setTitleColor(mode == .minutes ?
-                config.highlightedTimeColor
-                : config.timeColor, for: .normal)
+            .setTitleColor(
+                mode == .minutes ? selectedColor : deselectedColor,
+                for: .normal)
         if let isAm = time.twelveHoursFormat.am {
             amLabelButton
-                .setTitleColor(isAm ?
-                    config.highlightedTimeColor
-                    : config.timeColor, for: .normal)
+                .setTitleColor(
+                    isAm ? selectedColor : deselectedColor,
+                    for: .normal)
             pmLabelButton
-                .setTitleColor(!isAm ?
-                    config.highlightedTimeColor
-                    : config.timeColor, for: .normal)
+                .setTitleColor(
+                    !isAm ? selectedColor : deselectedColor,
+                    for: .normal)
         }
     }
     
     private func onCurrentTimeChanged() {
-        let hours = config.timeFormat == .twelve ?
+        let hours = timeFormat == .twelve ?
             time.twelveHoursFormat.hours
             : time.twentyFourHoursFormat.hours
-        let minutes = config.timeFormat == .twelve ?
+        let minutes = timeFormat == .twelve ?
             time.twelveHoursFormat.minutes
             : time.twentyFourHoursFormat.minutes
+        let hourFormatter = Formatters.hourFormatter
+        hourFormatter.zeroFormattingBehavior = timeFormat != .twelve
+            ? .pad
+            : .default
         let hoursText = hourFormatter
             .string(from: TimeInterval(hours * 3600))
-        let minutesText = minutesFormatter
+        let minutesText = Formatters.minutesFormatter
             .string(from: TimeInterval(minutes * 60)) ?? ""
         hoursLabelButton.setTitle(hoursText, for: .normal)
         minutesLabelButton.setTitle(":\(minutesText)", for: .normal)
@@ -656,10 +631,7 @@ public class DroidClockSelector: UIView {
     }
     
     private func onTimeFormatChanged() {
-        amPmStack.isHidden = config.timeFormat != .twelve
-        hourFormatter.zeroFormattingBehavior = config.timeFormat != .twelve
-            ? .pad
-            : .default
+        amPmStack.isHidden = timeFormat != .twelve
         onCurrentTimeChanged()
     }
     
@@ -694,14 +666,14 @@ public class DroidClockSelector: UIView {
     public func reset() {
         currentTime = .init()
         changeMode(to: .hour) { _ in
-            switch self.config.timeFormat {
+            switch self.timeFormat {
             case .twelve:
                 self.moveIndicatorToHour(self.time.twelveHoursFormat.hours)
             case .twentyFour:
                 self.moveIndicatorToHour(self.time.twentyFourHoursFormat.hours)
             }
         }
-        onConfigChanged()
+        onStyleChanged()
     }
 }
 
@@ -717,7 +689,7 @@ extension DroidClockSelector: UICollectionViewDelegate, UICollectionViewDataSour
                 minutes.count
                 : outerHours.count
         case 1:
-            return currentMode == .minutes || config.timeFormat == .twelve ?
+            return currentMode == .minutes || timeFormat == .twelve ?
                 0
                 : innerHours.count
         default:
@@ -746,9 +718,9 @@ extension DroidClockSelector: UICollectionViewDelegate, UICollectionViewDataSour
                     cell.setup(
                         label: "\(selection)",
                         value: selection,
-                        bgColor: config.selectionBackgroundColor,
-                        titleColor: config.largeSelectionColor,
-                        titleFont: config.largeSelectionFont)
+                        bgColor: style.outerCircleBackgroundColor,
+                        titleColor: style.outerCircleTextColor,
+                        titleFont: style.numbersFont.withSize(18))
                 case .minutes:
                     guard minutes.indices ~= indexPath.row else {
                         return UICollectionViewCell()
@@ -757,19 +729,19 @@ extension DroidClockSelector: UICollectionViewDelegate, UICollectionViewDataSour
                     let shouldDisplayCustomization = selection % 5 == 0
                     let label =
                          shouldDisplayCustomization ?
-                            cellTimeFormatter.string(
+                        Formatters.cellTimeFormatter.string(
                                 from: TimeInterval(selection * 3600)) ?? "N/A"
                             : ""
-                    let bgColor: UIColor = shouldDisplayCustomization ? config.selectionBackgroundColor : .clear
+                    let bgColor: UIColor = shouldDisplayCustomization ? style.outerCircleBackgroundColor : .clear
                     cell.setup(
                         label: label,
                         value: selection,
                         bgColor: bgColor,
-                        titleColor: config.largeSelectionColor,
-                        titleFont: config.largeSelectionFont)
+                        titleColor: style.outerCircleTextColor,
+                        titleFont: style.numbersFont.withSize(18))
                 }
             case 1:
-                guard config.timeFormat == .twentyFour else {
+                guard timeFormat == .twentyFour else {
                     return UICollectionViewCell()
                 }
                 guard innerHours.indices ~= indexPath.row else {
@@ -777,12 +749,12 @@ extension DroidClockSelector: UICollectionViewDelegate, UICollectionViewDataSour
                 }
                 let selection = innerHours[indexPath.row]
                 cell.setup(
-                    label: cellTimeFormatter
+                    label: Formatters.cellTimeFormatter
                         .string(from: TimeInterval(selection * 3600)) ?? "N/A",
                     value: selection,
-                    bgColor: config.selectionBackgroundColor,
-                    titleColor: config.smallSelectionColor,
-                    titleFont: config.smallSelectionFont)
+                    bgColor: style.innerCircleBackgroundColor,
+                    titleColor: style.innerCircleTextColor,
+                    titleFont: style.numbersFont.withSize(14))
             default: break
             }
             return cell

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,7 +26,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6A8-YO-U5z">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6A8-YO-U5z">
                                 <rect key="frame" x="42" y="605" width="291" height="36"/>
                                 <color key="backgroundColor" red="0.22239691019999999" green="0.63064342740000001" blue="0.18901696800000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -97,7 +98,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="umr-56-FF6" firstAttribute="top" secondItem="TsZ-NN-QWP" secondAttribute="bottom" constant="26" id="1dp-rg-gP6"/>
                             <constraint firstItem="TsZ-NN-QWP" firstAttribute="top" secondItem="6H8-Ch-YkY" secondAttribute="bottom" constant="26" id="3da-W7-dIb"/>
@@ -126,14 +127,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VjZ-Ba-ONN" customClass="DroidTimeSelection" customModule="DroidTimeSelection">
-                                <rect key="frame" x="42" y="26" width="291" height="333.5"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VjZ-Ba-ONN" customClass="DroidHybridSelector" customModule="DroidTimeSelection">
+                                <rect key="frame" x="42" y="26" width="291" height="533.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="VjZ-Ba-ONN" firstAttribute="height" secondItem="vZm-TG-tyf" secondAttribute="height" multiplier="0.5" id="Exz-F5-wlE"/>
+                            <constraint firstItem="VjZ-Ba-ONN" firstAttribute="height" secondItem="vZm-TG-tyf" secondAttribute="height" multiplier="0.8" id="Exz-F5-wlE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="VjZ-Ba-ONN" secondAttribute="trailing" constant="26" id="KNv-x2-ljK"/>
                             <constraint firstItem="VjZ-Ba-ONN" firstAttribute="top" secondItem="rPh-N2-YBU" secondAttribute="bottom" constant="26" id="eQj-84-8ix"/>
                             <constraint firstItem="VjZ-Ba-ONN" firstAttribute="leading" secondItem="vZm-TG-tyf" secondAttribute="leadingMargin" constant="26" id="rRL-f6-kmY"/>
@@ -145,4 +146,9 @@
             <point key="canvasLocation" x="727" y="131"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
