@@ -10,7 +10,7 @@ import UIKit
 @IBDesignable
 final class DroidTimeIndicatorView: UIView {
     
-    // MARK: - Storyboard
+    // MARK: - Storyboard Properties
     
     @IBInspectable
     var amColor: UIColor = .white {
@@ -56,12 +56,14 @@ final class DroidTimeIndicatorView: UIView {
         }
     }
     
-    // MARK: - Properties
+    // MARK: - Callbacks
     
     var onHoursTapped: (() -> Void)?
     var onMinutesTapped: (() -> Void)?
     var onAmTapped: (() -> Void)?
     var onPmTapped: (() -> Void)?
+    
+    // MARK: - Properties
     
     var timeFormat: DroidTimeFormat = .twelve {
         didSet {
@@ -152,14 +154,20 @@ final class DroidTimeIndicatorView: UIView {
     
     init() {
         super.init(frame: .zero)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         addSubview(contentStack)
         contentStack.anchor(in: self)
     }
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // MARK: - Actions
     
     @objc private func hoursTapped() {
         onHoursTapped?()
@@ -176,6 +184,8 @@ final class DroidTimeIndicatorView: UIView {
     @objc private func pmTapped() {
         onPmTapped?()
     }
+    
+    // MARK: - Helpers
     
     private func onTimeFormatChanged() {
         amPmStack.isHidden = timeFormat != .twelve

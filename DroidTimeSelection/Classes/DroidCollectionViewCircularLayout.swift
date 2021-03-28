@@ -9,7 +9,6 @@
 import UIKit
 
 internal class DroidCircularCollectionViewLayout: UICollectionViewLayout {
-    
     private var circleCenter: CGPoint!
     private var circleRadius: CGFloat!
     

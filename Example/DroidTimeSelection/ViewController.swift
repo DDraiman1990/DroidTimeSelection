@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     
     private func setTime(with time: Time) {
         self.time = time
-        timeLabel.text = timeFormatter.string(from: time.totalSeconds)
+        timeLabel.text = timeFormatter.string(from: time.timeInterval)
     }
     
     // MARK: - Actions

@@ -9,7 +9,7 @@
 import Foundation
 
 public struct Time: Equatable {
-    public var totalSeconds: TimeInterval {
+    public var timeInterval: TimeInterval {
         return TimeInterval(
             twentyFourHoursFormat.hours * 3600
             + twentyFourHoursFormat.minutes * 60)

@@ -8,6 +8,18 @@
 
 import UIKit
 
+/// The styling configuration for the ClockSelector.
+///
+/// `outerCircleTextColor`: the text color for the entries in the outer clock circle
+/// `outerCircleBackgroundColor`: the background color for the entries in the outer clock circle
+/// `innerCircleTextColor`: the text color for the entries in the inner clock circle
+/// `innerCircleBackgroundColor`: the background color for the entries in the inner clock circle
+/// `selectedColor`: the color for the current time unit being selected. Example: if hour is currently being selected then the HH of the HH:MM label will be colored with this color.
+/// `deselectedColor`: the color for the current time unit being selected. Example: if hour is currently being selected then the MM of the HH:MM label will be colored with this color.
+/// `indicatorColor`: the color for the line and circle indicator in the physical clock.
+/// `selectionFont`: the font for the HH:MM time label.
+/// `numbersFont`: the font for all the entries in the physical clock.
+/// - Warning: the sizes of provided fonts will be ignored to avoid having the layout broken by extreme sizes.
 public struct ClockStyle: Equatable {
     public init(
         outerCircleTextColor: UIColor = .white,
@@ -42,6 +54,14 @@ public struct ClockStyle: Equatable {
     
 }
 
+/// The styling configuration for the ClockSelector.
+///
+/// `titleColor`: the text color for the selector's title.
+/// `titleFont`: the font for the selector's title.
+/// `titleText`: the text in the selector's title.
+/// `pickerFont`: the font for the picker entries.
+/// `pickerColor`: the text color for the picker entries.
+/// - Warning: the sizes of provided fonts will be ignored to avoid having the layout broken by extreme sizes.
 public struct PickerStyle: Equatable {
     public init(
         titleColor: UIColor = .white,
@@ -63,6 +83,18 @@ public struct PickerStyle: Equatable {
     var pickerColor: UIColor = .white
 }
 
+/// The styling configuration for the ClockSelector.
+///
+/// `modeButtonTint`: the color for the toggle selection button.
+/// `pickerModeButtonContent`: the button type for the 'Picker Selection' mode.
+/// `clockModeButtonContent`: the button type for the 'Clock Selection' mode.
+/// `cancelButtonContent`: the button type for the cancel button.
+/// `submitButtonContent`: the button type for the submit button.
+/// `cancelButtonColor`: the color for the cancel button.
+/// `submitButtonColor`: the color for the submit button.
+/// `clock`: the styling for the inner Clock Selector. See `ClockStyle` for more info.
+/// `picker`: the styling for the inner Picker Selector. See `PickerStyle` for more info.
+/// - Warning: the sizes of provided fonts will be ignored to avoid having the layout broken by extreme sizes.
 public struct HybridStyle: Equatable {
     public init(
         modeButtonTint: UIColor = .white,
@@ -109,6 +141,9 @@ public struct HybridStyle: Equatable {
     var picker: PickerStyle = .init()
 }
 
+/// A button style.
+/// - text: will only present a title by the given string.
+/// - icon: will only present an icon by the given image.
 public enum ButtonStyle: Equatable {
     case text(title: String)
     case icon(image: UIImage?)

@@ -7,7 +7,8 @@
 
 import UIKit
 
-public class DroidViewController: UIViewController {
+/// A base view controller allowing a an inner subview and a dimmed background.
+public class DimmedViewController: UIViewController {
     private let dimView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -15,28 +16,24 @@ public class DroidViewController: UIViewController {
         view.alpha = 0.0
         return view
     }()
-    
-    private let droidSelectionContainer = UIView()
-    
-    public init(droidSelection: UIView) {
+        
+    public init(subview: UIView) {
         super.init(nibName: nil, bundle: nil)
-        setup(droidSelection: droidSelection)
+        setup(subview: subview)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    internal func setup(droidSelection: UIView) {
-        droidSelectionContainer.addSubview(droidSelection)
-        droidSelection.anchor(in: droidSelectionContainer)
+    internal func setup(subview: UIView) {
         view.backgroundColor = .clear
         view.addSubview(dimView)
         dimView.anchor(in: view)
-        view.addSubview(droidSelection)
-        droidSelection
+        view.addSubview(subview)
+        subview
             .translatesAutoresizingMaskIntoConstraints = false
-        droidSelection.anchorYCenteredDynamicHeight(
+        subview.anchorYCenteredDynamicHeight(
             in: view,
             padding: .init(constant: 26))
         
@@ -58,18 +55,29 @@ public class DroidViewController: UIViewController {
     }
 }
 
-public final class HybridDroidViewController: DroidViewController {
+///A simple ViewController presenting the Hybrid version of the selector with
+///a dimmed background
+///
+/// Displays both versions of the selector.
+/// Default mode is Clock selection.
+///
+/// Set the callbacks for `selector.onOkTapped`, `selector.onCancelTapped` and `selector.onSelectionChanged`
+/// to get updates from this component.
+///
+/// - Change `selector.timeFormat` to change the selection mode for both selectors.
+/// - Change `selector.style` to change the style of the selectors and the menu. See `HybridStyle`, `ClockStyle` and `PickerStyle` for more details about possible styling.
+public final class HybridDroidViewController: DimmedViewController {
     @IBOutlet public var selector: DroidHybridSelector!
     
-    init(selector: DroidHybridSelector) {
+    public init(selector: DroidHybridSelector) {
         self.selector = selector
-        super.init(droidSelection: selector)
+        super.init(subview: selector)
         commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup(droidSelection: selector)
+        setup(subview: selector)
         commonInit()
     }
     
@@ -80,30 +88,46 @@ public final class HybridDroidViewController: DroidViewController {
     }
 }
 
-public final class ClockDroidViewController: DroidViewController {
+/// A ViewController wrapper for the clock time selector, with a dimmed background,
+/// showing a time indicator along with a physical clock to give user the ability
+/// to manually select the time using an intuitive way.
+///
+/// Set the callback `selector.onSelectionChanged` to get updates from this component.
+///
+/// This is the same UI presented in Android phones.
+/// - Change `selector.timeFormat` to change the selection mode for the selector.
+/// - Change `selector.style` to change the style of the selectors and the menu. See `ClockStyle` for more details about possible styling.
+public final class ClockDroidViewController: DimmedViewController {
     @IBOutlet public var selector: DroidClockSelector!
     
-    init(selector: DroidClockSelector) {
+    public init(selector: DroidClockSelector) {
         self.selector = selector
-        super.init(droidSelection: selector)
+        super.init(subview: selector)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup(droidSelection: selector)
+        setup(subview: selector)
     }
 }
 
-public final class PickerDroidViewController: DroidViewController {
+/// A ViewController wrapper for the picker time selector, with a dimmed background,
+/// showing a UIPickerView allowing the native pre-iOS 14 picker style selection.
+///
+/// Set the callback `selector.onSelectionChanged` to get updates from this component.
+///
+/// - Change `selector.timeFormat` to change the selection mode for the selector.
+/// - Change `selector.style` to change the style of the selectors and the menu. See `PickerStyle` for more details about possible styling.
+public final class PickerDroidViewController: DimmedViewController {
     @IBOutlet public var selector: DroidPickerSelector!
     
-    init(selector: DroidPickerSelector) {
+    public init(selector: DroidPickerSelector) {
         self.selector = selector
-        super.init(droidSelection: selector)
+        super.init(subview: selector)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup(droidSelection: selector)
+        setup(subview: selector)
     }
 }

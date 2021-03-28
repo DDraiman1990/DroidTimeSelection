@@ -7,7 +7,10 @@
 
 import UIKit
 
+@IBDesignable
 final class DroidClockCollectionView: UIView {
+    
+    // MARK: - Callbacks
     
     var onHourSelectionEnded: ((Int) -> Void)?
     var onMinuteSelectionEnded: ((Int) -> Void)?
@@ -15,7 +18,8 @@ final class DroidClockCollectionView: UIView {
     var onHourSelected: ((Int) -> Void)?
     var onMinuteSelected: ((Int) -> Void)?
     
-    // MARK: - Storyboard
+    // MARK: - Storyboard Properties
+    
     @IBInspectable
     public var indicatorColor: UIColor = .blue {
         didSet {
@@ -146,8 +150,19 @@ final class DroidClockCollectionView: UIView {
         return recognizer
     }()
     
+    // MARK: - Lifecycle
+    
     init() {
         super.init(frame: .zero)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         layer.addSublayer(middleCircleLayer)
         layer.addSublayer(selectionLineLayer)
         
@@ -160,11 +175,6 @@ final class DroidClockCollectionView: UIView {
         self.addGestureRecognizer(touchRecognizer)
         self.addGestureRecognizer(panRecognizer)
         self.isUserInteractionEnabled = true
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     public override func layoutSubviews() {
@@ -236,21 +246,6 @@ final class DroidClockCollectionView: UIView {
         }
     }
     
-    private func selectionForGesture(at location: CGPoint)
-        -> (DroidClockSelectorCell, IndexPath)? {
-            guard let indexPath = collectionView.indexPathForItem(at: location),
-                let cell = collectionView
-                    .cellForItem(at: indexPath) as? DroidClockSelectorCell else {
-                        return nil
-            }
-            let newLocation = convert(cell.center, from: collectionView)
-            if let latest = latestSelectionLocation,
-                newLocation == latest {
-                return nil
-            }
-            return (cell, indexPath)
-    }
-    
     // MARK: - Indicator Logic | Public
     
     public func moveIndicatorToHour(_ hour: Int) {
@@ -303,6 +298,21 @@ final class DroidClockCollectionView: UIView {
     }
     
     // MARK: - Indicator Logic | Private
+    
+    private func selectionForGesture(at location: CGPoint)
+        -> (DroidClockSelectorCell, IndexPath)? {
+            guard let indexPath = collectionView.indexPathForItem(at: location),
+                let cell = collectionView
+                    .cellForItem(at: indexPath) as? DroidClockSelectorCell else {
+                        return nil
+            }
+            let newLocation = convert(cell.center, from: collectionView)
+            if let latest = latestSelectionLocation,
+                newLocation == latest {
+                return nil
+            }
+            return (cell, indexPath)
+    }
     
     private func moveIndicator(to location: CGPoint,
                                selectionSize: CGSize,

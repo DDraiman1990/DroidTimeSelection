@@ -8,53 +8,70 @@
 
 import UIKit
 
+/// A time selector showing a time indicator along with a physical clock to
+/// give user the ability to manually select the time using an intuitive way.
+///
+/// Set the callback `onSelectionChanged` to get updates from this component.
+///
+/// This is the same UI presented in Android phones.
+/// - Change `timeFormat` to change the selection mode for the selector.
+/// - Change `style` to change the style of the selectors and the menu. See `ClockStyle` for more details about possible styling.
 @available(iOS 10.0, *)
 @IBDesignable
 public class DroidClockSelector: UIView {
     
-    // MARK: - Storyboard
+    // MARK: - Storyboard Properties
     
-    @IBInspectable var outerCircleTextColor: UIColor = .white {
+    @IBInspectable
+    var outerCircleTextColor: UIColor = .white {
         didSet {
             style.outerCircleTextColor = outerCircleTextColor
         }
     }
-    @IBInspectable var outerCircleBackgroundColor: UIColor = .clear {
+    @IBInspectable
+    var outerCircleBackgroundColor: UIColor = .clear {
         didSet {
             style.outerCircleBackgroundColor = outerCircleBackgroundColor
         }
     }
-    @IBInspectable var innerCircleTextColor: UIColor = .gray {
+    @IBInspectable
+    var innerCircleTextColor: UIColor = .gray {
         didSet {
             style.innerCircleTextColor = innerCircleTextColor
         }
     }
-    @IBInspectable var innerCircleBackgroundColor: UIColor = .clear {
+    @IBInspectable
+    var innerCircleBackgroundColor: UIColor = .clear {
         didSet {
             style.innerCircleBackgroundColor = innerCircleBackgroundColor
         }
     }
-    @IBInspectable var selectedColor: UIColor = .white {
+    @IBInspectable
+    var selectedColor: UIColor = .white {
         didSet {
             style.selectedColor = selectedColor
         }
     }
-    @IBInspectable var deselectedColor: UIColor = .gray {
+    @IBInspectable
+    var deselectedColor: UIColor = .gray {
         didSet {
             style.deselectedColor = deselectedColor
         }
     }
-    @IBInspectable var indicatorColor: UIColor = .blue {
+    @IBInspectable
+    var indicatorColor: UIColor = .blue {
         didSet {
             style.indicatorColor = indicatorColor
         }
     }
-    @IBInspectable var selectionFont: UIFont = .systemFont(ofSize: 18) {
+    @IBInspectable
+    var selectionFont: UIFont = .systemFont(ofSize: 18) {
         didSet {
             style.selectionFont = selectionFont
         }
     }
-    @IBInspectable var numbersFont: UIFont = .systemFont(ofSize: 18) {
+    @IBInspectable
+    var numbersFont: UIFont = .systemFont(ofSize: 18) {
         didSet {
             style.numbersFont = numbersFont
         }
@@ -62,7 +79,7 @@ public class DroidClockSelector: UIView {
     
     // MARK: - Public Properties
     
-    /// The style for this selector.
+    /// Styling for Hybrid menu and for the inner selectors.
     public var style: ClockStyle = .init() {
         didSet {
             if oldValue != style {
@@ -71,13 +88,14 @@ public class DroidClockSelector: UIView {
         }
     }
     
+    /// Time format for the selector.
     public var timeFormat: DroidTimeFormat = .twelve {
         didSet {
             onTimeFormatChanged()
         }
     }
     
-    /// The value for this selector.
+    /// The current time value of the selector. See `Time` object for more info.
     public var time: Time {
         return currentTime
     }
@@ -289,16 +307,6 @@ public class DroidClockSelector: UIView {
     
     private func onModeChanged(completion: ((Bool) -> Void)?) {
         clockCollection.currentMode = currentMode
-//        DispatchQueue.main.async {
-//            UIView.transition(
-//                with: self.clockCollection,
-//                duration: 0.35,
-//                options: .transitionCrossDissolve,
-//                animations: {
-//                    self.clockCollection.reloadData()
-//                },
-//                completion: completion)
-//        }
         highlight(mode: currentMode)
         moveIndicatorToReflectSelection()
     }

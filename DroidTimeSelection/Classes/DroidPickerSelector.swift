@@ -8,43 +8,57 @@
 
 import UIKit
 
+/// A time selector showing a UIPickerView allowing the native pre-iOS 14 picker
+/// style selection.
+///
+/// Set the callback `onSelectionChanged` to get updates from this component.
+///
+/// - Change `timeFormat` to change the selection mode for the selector.
+/// - Change `style` to change the style of the selectors and the menu. See `PickerStyle` for more details about possible styling.
 @IBDesignable
 public class DroidPickerSelector: UIView {
     
-    // MARK: - Storyboard
+    // MARK: - Storyboard Properties
 
-    @IBInspectable var titleColor: UIColor = .white {
+    @IBInspectable
+    var titleColor: UIColor = .white {
         didSet {
             style.titleColor = titleColor
         }
     }
-    @IBInspectable var titleFont: UIFont = .systemFont(ofSize: 14) {
+    @IBInspectable
+    var titleFont: UIFont = .systemFont(ofSize: 14) {
         didSet {
             style.titleFont = titleFont
         }
     }
-    @IBInspectable var titleText: String = "Set Time" {
+    @IBInspectable
+    var titleText: String = "Set Time" {
         didSet {
             style.titleText = titleText
         }
     }
-    @IBInspectable var pickerFont: UIFont = .systemFont(ofSize: 14) {
+    @IBInspectable
+    var pickerFont: UIFont = .systemFont(ofSize: 14) {
         didSet {
             style.pickerFont = pickerFont
         }
     }
-    @IBInspectable var pickerColor: UIColor = .white {
+    @IBInspectable
+    var pickerColor: UIColor = .white {
         didSet {
             style.pickerColor = pickerColor
         }
     }
     
     // MARK: - Public Properties
+    
+    /// The current time value of the selector. See `Time` object for more info.
     public var time: Time {
         return currentTime
     }
-    public var onSelectionChanged: ((Time) -> Void)?
     
+    /// Styling for selector.
     public var style: PickerStyle = .init() {
         didSet {
             if oldValue != style {
@@ -53,13 +67,20 @@ public class DroidPickerSelector: UIView {
         }
     }
     
+    /// Time format for the selector.
     public var timeFormat: DroidTimeFormat = .twelve {
         didSet {
             onTimeFormatChanged()
         }
     }
     
+    // Callbacks
+    
+    /// Will be called whenever the picker selection changes.
+    public var onSelectionChanged: ((Time) -> Void)?
+    
     // MARK: - Private Properties
+    
     private var currentTime: Time = .init() {
         didSet {
             onSelectionChanged?(currentTime)

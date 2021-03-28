@@ -27,12 +27,39 @@ public protocol DroidTimeSelector {
     func reset()
 }
 
+/// A time selector showing a time indicator along with a physical clock to
+/// give user the ability to manually select the time using an intuitive way.
+///
+/// Set the callback `onSelectionChanged` to get updates from this component.
+///
+/// This is the same UI presented in Android phones.
+/// - Change `timeFormat` to change the selection mode for the selector.
+/// - Change `style` to change the style of the selectors and the menu. See `ClockStyle` for more details about possible styling.
 public protocol ClockTimeSelector: DroidTimeSelector {
     var style: ClockStyle { get set }
 }
+
+/// A time selector showing a UIPickerView allowing the native pre-iOS 14 picker
+/// style selection.
+///
+/// Set the callback `onSelectionChanged` to get updates from this component.
+///
+/// - Change `timeFormat` to change the selection mode for the selector.
+/// - Change `style` to change the style of the selectors and the menu. See `PickerStyle` for more details about possible styling.
 public protocol PickerTimeSelector: DroidTimeSelector {
     var style: PickerStyle { get set }
 }
+
+/// A Hybrid version of the selector.
+///
+/// Displays both versions of the selector.
+/// Default mode is Clock selection.
+///
+/// Set the callbacks for `onOkTapped`, `onCancelTapped` and `onSelectionChanged`
+/// to get updates from this component.
+///
+/// - Change `timeFormat` to change the selection mode for both selectors.
+/// - Change `style` to change the style of the selectors and the menu. See `HybridStyle`, `ClockStyle` and `PickerStyle` for more details about possible styling.
 public protocol HybridTimeSelector: DroidTimeSelector {
     var style: HybridStyle { get set }
 }

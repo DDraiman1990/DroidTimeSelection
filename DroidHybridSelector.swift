@@ -7,9 +7,18 @@
 
 import UIKit
 
+/// A Hybrid version of the selector.
+///
+/// Displays both versions of the selector.
+/// Default mode is Clock selection.
+///
+/// Set the callbacks for `onOkTapped`, `onCancelTapped` and `onSelectionChanged`
+/// to get updates from this component.
+///
+/// - Change `timeFormat` to change the selection mode for both selectors.
+/// - Change `style` to change the style of the selectors and the menu. See `HybridStyle`, `ClockStyle` and `PickerStyle` for more details about possible styling.
 @IBDesignable
 public class DroidHybridSelector: UIView, HybridTimeSelector {
-    
     enum HourSelectionMode {
         case picker, clock
         
@@ -23,7 +32,7 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         }
     }
     
-    // MARK: - Storyboard
+    // MARK: - Storyboard Properties
     
     @IBInspectable var modeButtonTint: UIColor = .white {
         didSet {
@@ -101,12 +110,15 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     
     // MARK: - Public Properties
     
+    /// Time format for all selectors.
     public var timeFormat: DroidTimeFormat = .twelve {
         didSet {
             onTimeFormatChanged()
         }
     }
     
+    
+    /// Styling for Hybrid menu and for the inner selectors.
     public var style: HybridStyle = .init() {
         didSet {
             if oldValue != style {
@@ -115,16 +127,19 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         }
     }
     
-    //Callbacks
-    public var onOkTapped: (() -> Void)?
-    public var onCancelTapped: (() -> Void)?
-    public var onSelectionChanged: ((Time) -> Void)?
-    
-    //Values
-    
+    /// The current time value of the selector. See `Time` object for more info.
     public var time: Time {
         return currentTime
     }
+    
+    //Callbacks
+    
+    /// Will be called when the submit button, in the hybrid menu, is tapped.
+    public var onOkTapped: (() -> Void)?
+    /// Will be called when the cancel button, in the hybrid menu, is tapped.
+    public var onCancelTapped: (() -> Void)?
+    /// Will be called the time value of the current selector is changed.
+    public var onSelectionChanged: ((Time) -> Void)?
     
     // MARK: - Private Properties
     
@@ -242,7 +257,7 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         reset()
     }
     
-    // MARK: - Helpers
+    // MARK: - Helpers | Private
     
     private func styleButton(_ button: UIButton, with style: ButtonStyle) {
         switch style {
@@ -313,7 +328,7 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         clockSelector.reset()
         hourPicker.reset()
     }
-    // MARK: - Actions
+    // MARK: - Actions | Private
     
     @objc private func toggleMode() {
         mode.toggle()
