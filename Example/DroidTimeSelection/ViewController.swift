@@ -62,6 +62,7 @@ class ViewController: UIViewController {
         
         vc.selector.onSelectionChanged = { [weak self] value in
             print("TimeInterval: \(value.timeInterval)")
+            self?.setTime(with: value)
         }
         present(vc, animated: true, completion: nil)
     }

@@ -300,18 +300,24 @@ final class DroidClockCollectionView: UIView {
     // MARK: - Indicator Logic | Private
     
     private func selectionForGesture(at location: CGPoint)
-        -> (DroidClockSelectorCell, IndexPath)? {
-            guard let indexPath = collectionView.indexPathForItem(at: location),
-                let cell = collectionView
-                    .cellForItem(at: indexPath) as? DroidClockSelectorCell else {
-                        return nil
+    -> (DroidClockSelectorCell, IndexPath)? {
+        let cells = collectionView
+            .visibleCells
+            .filter({ $0.frame.contains(location) })
+            .compactMap({$0 as? DroidClockSelectorCell})
+            .sorted { lhs, rhs in
+                lhs.center.distance(to: location) < rhs.center.distance(to: location)
             }
-            let newLocation = convert(cell.center, from: collectionView)
-            if let latest = latestSelectionLocation,
-                newLocation == latest {
-                return nil
-            }
-            return (cell, indexPath)
+        guard let cell = cells.first,
+              let indexPath = collectionView.indexPath(for: cell) else {
+            return nil
+        }
+        let newLocation = convert(cell.center, from: collectionView)
+        if let latest = latestSelectionLocation,
+           newLocation == latest {
+            return nil
+        }
+        return (cell, indexPath)
     }
     
     private func moveIndicator(to location: CGPoint,
@@ -435,5 +441,15 @@ extension DroidClockCollectionView: UIGestureRecognizerDelegate {
         shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
         -> Bool {
             return true
+    }
+}
+
+private extension CGPoint {
+    func distanceSquared(to: CGPoint) -> CGFloat {
+        return (self.x - to.x) * (self.x - to.x) + (self.y - to.y) * (self.y - to.y)
+    }
+
+    func distance(to: CGPoint) -> CGFloat {
+        return sqrt(self.distanceSquared(to: to))
     }
 }
