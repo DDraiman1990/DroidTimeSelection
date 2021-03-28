@@ -1,5 +1,5 @@
 PODS:
-  - DroidTimeSelection (0.1.0)
+  - DroidTimeSelection (2.0.0)
 
 DEPENDENCIES:
   - DroidTimeSelection (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  DroidTimeSelection: fb77852b4840bcff6968882eb3c282d18e59df8e
+  DroidTimeSelection: 78f95cb47659589515aeb658e5ac19cd7e57c33d
 
 PODFILE CHECKSUM: 92d7fc89d63a96f45746320b3bc6661b6059c2d3
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.0
