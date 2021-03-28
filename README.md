@@ -233,9 +233,10 @@ vc.selector.mode = .picker
 ### Storyboard
 
 All 3 selectors are IBDesignable and can be used inside a storyboard.
-To use any of them, simply drag a UIView inside and change its class
-to `DroidHybridSelector`, `DroidClockSelector` or `DroidPickerSelector`.
-Make sure to drag it as an IBOutlet to your view controller and then bind its callbacks, style it, etc.
+To use any of them, simply:
+1. Drag a UIView inside.
+2. Change its class to `DroidHybridSelector`, `DroidClockSelector` or `DroidPickerSelector`.
+3. Make sure to drag it as an IBOutlet to your view controller and then bind its callbacks, style it, etc.
 
 ### Extra views
 
@@ -263,39 +264,39 @@ You can style the following properties:
 
 #### Clock Selector Configuration
 
-`outerCircleTextColor`: the text color for the entries in the outer clock circle
-`outerCircleBackgroundColor`: the background color for the entries in the outer clock circle
-`innerCircleTextColor`: the text color for the entries in the inner clock circle
-`innerCircleBackgroundColor`: the background color for the entries in the inner clock circl
-`selectedColor`: the color for the current time unit being selected. Example: if hour is currently being selected then the HH of the HH:MM label will be colored with this color.
-`deselectedColor`: the color for the current time unit being selected. Example: if hour is currently being selected then the MM of the HH:MM label will be colored with this color.
-`indicatorColor`: the color for the line and circle indicator in the physical clock.
-`selectionFont`: the font for the HH:MM time label.
-`numbersFont`: the font for all the entries in the physical clock.
+- `outerCircleTextColor`: the text color for the entries in the outer clock circle
+- `outerCircleBackgroundColor`: the background color for the entries in the outer clock circle
+- `innerCircleTextColor`: the text color for the entries in the inner clock circle
+- `innerCircleBackgroundColor`: the background color for the entries in the inner clock circl
+- `selectedColor`: the color for the current time unit being selected. Example: if hour is currently being selected then the HH of the HH:MM label will be colored with this color.
+- `deselectedColor`: the color for the current time unit being selected. Example: if hour is currently being selected then the MM of the HH:MM label will be colored with this color.
+- `indicatorColor`: the color for the line and circle indicator in the physical clock.
+- `selectionFont`: the font for the HH:MM time label.
+- `numbersFont`: the font for all the entries in the physical clock.
 - Warning: the sizes of provided fonts will be ignored to avoid having the layout broken by extreme sizes.
 
 #### Picker Selector Configuration
 
-`titleColor`: the text color for the selector's title.
-`titleFont`: the font for the selector's title.
-`titleText`: the text in the selector's title.
-`pickerFont`: the font for the picker entries.
-`pickerColor`: the text color for the picker entries.
+- `titleColor`: the text color for the selector's title.
+- `titleFont`: the font for the selector's title.
+- `titleText`: the text in the selector's title.
+- `pickerFont`: the font for the picker entries.
+- `pickerColor`: the text color for the picker entries.
 - Warning: the sizes of provided fonts will be ignored to avoid having the layout broken by extreme sizes.
 
 #### Menu Selector (both methods) Configuration
 
-`showToggleButton`: whether you want the hybrid selector to allow user to toggle between
+- `showToggleButton`: whether you want the hybrid selector to allow user to toggle between
 Clock and Picker manually.
-`modeButtonTint`: the color for the toggle selection button.
-`pickerModeButtonContent`: the button type for the 'Picker Selection' mode.
-`clockModeButtonContent`: the button type for the 'Clock Selection' mode.
-`cancelButtonContent`: the button type for the cancel button.
-`submitButtonContent`: the button type for the submit button.
-`cancelButtonColor`: the color for the cancel button.
-`submitButtonColor`: the color for the submit button.
-`clock`: the styling for the inner Clock Selector. See `ClockStyle` for more info.
-`picker`: the styling for the inner Picker Selector. See `PickerStyle` for more info.
+- `modeButtonTint`: the color for the toggle selection button.
+- `pickerModeButtonContent`: the button type for the 'Picker Selection' mode.
+- `clockModeButtonContent`: the button type for the 'Clock Selection' mode.
+- `cancelButtonContent`: the button type for the cancel button.
+- `submitButtonContent`: the button type for the submit button.
+- `cancelButtonColor`: the color for the cancel button.
+- `submitButtonColor`: the color for the submit button.
+- `clock`: the styling for the inner Clock Selector. See `ClockStyle` for more info.
+- `picker`: the styling for the inner Picker Selector. See `PickerStyle` for more info.
 - Warning: the sizes of provided fonts will be ignored to avoid having the layout broken by extreme sizes.
 
 
