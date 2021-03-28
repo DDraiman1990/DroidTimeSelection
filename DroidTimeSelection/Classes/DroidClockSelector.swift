@@ -192,11 +192,11 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
             self?.onMinuteSelected(minute)
         }
         
-        clockCollection.onHourSelectionEnded = { [weak self] _ in
+        clockCollection.onHourSelectionEnded = { [weak self] value in
             self?.onHourSelectionEnded()
         }
         
-        clockCollection.onMinuteSelectionEnded = { [weak self] _ in
+        clockCollection.onMinuteSelectionEnded = { [weak self] value in
             guard let time = self?.time else {
                 return
             }
