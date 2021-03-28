@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol DroidTimeSelector {
+public protocol DroidTimeSelector: UIView {
     var onSelectionChanged: ((Time) -> Void)? { get set }
     var time: Time { get }
     var timeFormat: DroidTimeFormat { get set }
@@ -37,6 +37,7 @@ public protocol DroidTimeSelector {
 /// - Change `style` to change the style of the selectors and the menu. See `ClockStyle` for more details about possible styling.
 public protocol ClockTimeSelector: DroidTimeSelector {
     var style: ClockStyle { get set }
+    var onSelectionEnded: ((Time) -> Void)? { get set }
 }
 
 /// A time selector showing a UIPickerView allowing the native pre-iOS 14 picker
@@ -62,4 +63,5 @@ public protocol PickerTimeSelector: DroidTimeSelector {
 /// - Change `style` to change the style of the selectors and the menu. See `HybridStyle`, `ClockStyle` and `PickerStyle` for more details about possible styling.
 public protocol HybridTimeSelector: DroidTimeSelector {
     var style: HybridStyle { get set }
+    var mode: TimeSelectionMode { get set }
 }

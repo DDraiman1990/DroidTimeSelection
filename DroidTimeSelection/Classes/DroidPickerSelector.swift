@@ -16,7 +16,7 @@ import UIKit
 /// - Change `timeFormat` to change the selection mode for the selector.
 /// - Change `style` to change the style of the selectors and the menu. See `PickerStyle` for more details about possible styling.
 @IBDesignable
-public class DroidPickerSelector: UIView {
+public class DroidPickerSelector: UIView, PickerTimeSelector {
     
     // MARK: - Storyboard Properties
 

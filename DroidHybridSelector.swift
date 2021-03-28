@@ -19,18 +19,6 @@ import UIKit
 /// - Change `style` to change the style of the selectors and the menu. See `HybridStyle`, `ClockStyle` and `PickerStyle` for more details about possible styling.
 @IBDesignable
 public class DroidHybridSelector: UIView, HybridTimeSelector {
-    enum HourSelectionMode {
-        case picker, clock
-        
-        mutating func toggle() {
-            switch self {
-            case .clock:
-                self = .picker
-            case .picker:
-                self = .clock
-            }
-        }
-    }
     
     // MARK: - Storyboard Properties
     
@@ -143,17 +131,21 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     
     // MARK: - Private Properties
     
-    private var mode: HourSelectionMode = .clock
+    public var mode: TimeSelectionMode = .clock {
+        didSet {
+            onModeChanged()
+        }
+    }
     private var currentTime: Time = .init()
     
     // MARK: - UI Components
     
-    private let clockSelector: DroidClockSelector = {
+    private let clockSelector: ClockTimeSelector = {
         let selector = DroidClockSelector()
         return selector
     }()
     
-    private let hourPicker: DroidPickerSelector = {
+    private let hourPicker: PickerTimeSelector = {
         let picker = DroidPickerSelector()
         return picker
     }()
@@ -279,7 +271,7 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
             styleButton(modeButton, with: style.pickerModeButtonContent)
             modeButton.accessibilityValue = "Picker selection mode"
         }
-        
+        modeButton.isHidden = !style.showToggleButton
     }
     
     private func onTimeFormatChanged() {
@@ -332,7 +324,6 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     
     @objc private func toggleMode() {
         mode.toggle()
-        onModeChanged()
     }
     
     @objc private func onModeChanged() {

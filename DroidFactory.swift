@@ -35,13 +35,6 @@ public enum DroidFactory {
             selector.style = style
             return selector
         }
-        
-        public static func viewController(
-            timeFormat: DroidTimeFormat = .twentyFour,
-            style: ClockStyle = .init()) -> ClockDroidViewController {
-            let selector = Clock.view(timeFormat: timeFormat, style: style)
-            return ClockDroidViewController(selector: selector)
-        }
     }
     
     public enum Picker {
@@ -52,13 +45,6 @@ public enum DroidFactory {
             selector.timeFormat = timeFormat
             selector.style = style
             return selector
-        }
-        
-        public static func viewController(
-            timeFormat: DroidTimeFormat = .twentyFour,
-            style: PickerStyle = .init()) -> PickerDroidViewController {
-            let selector = Picker.view(timeFormat: timeFormat, style: style)
-            return PickerDroidViewController(selector: selector)
         }
     }
 }

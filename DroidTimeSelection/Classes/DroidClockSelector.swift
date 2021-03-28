@@ -18,7 +18,7 @@ import UIKit
 /// - Change `style` to change the style of the selectors and the menu. See `ClockStyle` for more details about possible styling.
 @available(iOS 10.0, *)
 @IBDesignable
-public class DroidClockSelector: UIView {
+public class DroidClockSelector: UIView, ClockTimeSelector {
     
     // MARK: - Storyboard Properties
     
@@ -102,6 +102,8 @@ public class DroidClockSelector: UIView {
     
     /// Will be called for every change in Time value.
     public var onSelectionChanged: ((Time) -> Void)?
+    /// Will be called once both hours and minutes are chosen and interaction ends.
+    public var onSelectionEnded: ((Time) -> Void)?
     
     // MARK: - Private Properties
     
@@ -192,6 +194,13 @@ public class DroidClockSelector: UIView {
         
         clockCollection.onHourSelectionEnded = { [weak self] _ in
             self?.onHourSelectionEnded()
+        }
+        
+        clockCollection.onMinuteSelectionEnded = { [weak self] _ in
+            guard let time = self?.time else {
+                return
+            }
+            self?.onSelectionEnded?(time)
         }
     }
     

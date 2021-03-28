@@ -42,15 +42,15 @@ public struct ClockStyle: Equatable {
         self.numbersFont = numbersFont
     }
     
-    var outerCircleTextColor: UIColor = .white
-    var outerCircleBackgroundColor: UIColor = .clear
-    var innerCircleTextColor: UIColor = .gray
-    var innerCircleBackgroundColor: UIColor = .clear
-    var selectedColor: UIColor = .white
-    var deselectedColor: UIColor = .gray
-    var indicatorColor: UIColor = .blue
-    var selectionFont: UIFont = .systemFont(ofSize: 18)
-    var numbersFont: UIFont = .systemFont(ofSize: 18)
+    public var outerCircleTextColor: UIColor = .white
+    public var outerCircleBackgroundColor: UIColor = .clear
+    public var innerCircleTextColor: UIColor = .gray
+    public var innerCircleBackgroundColor: UIColor = .clear
+    public var selectedColor: UIColor = .white
+    public var deselectedColor: UIColor = .gray
+    public var indicatorColor: UIColor = .blue
+    public var selectionFont: UIFont = .systemFont(ofSize: 18)
+    public var numbersFont: UIFont = .systemFont(ofSize: 18)
     
 }
 
@@ -76,15 +76,17 @@ public struct PickerStyle: Equatable {
         self.pickerColor = pickerColor
     }
     
-    var titleColor: UIColor = .white
-    var titleFont: UIFont = .systemFont(ofSize: 14)
-    var titleText: String = "Set Time"
-    var pickerFont: UIFont = .systemFont(ofSize: 14)
-    var pickerColor: UIColor = .white
+    public var titleColor: UIColor = .white
+    public var titleFont: UIFont = .systemFont(ofSize: 14)
+    public var titleText: String = "Set Time"
+    public var pickerFont: UIFont = .systemFont(ofSize: 14)
+    public var pickerColor: UIColor = .white
 }
 
 /// The styling configuration for the ClockSelector.
 ///
+/// `showToggleButton`: whether you want the hybrid selector to allow user to
+/// toggle between Clock and Picker manually.
 /// `modeButtonTint`: the color for the toggle selection button.
 /// `pickerModeButtonContent`: the button type for the 'Picker Selection' mode.
 /// `clockModeButtonContent`: the button type for the 'Clock Selection' mode.
@@ -97,6 +99,7 @@ public struct PickerStyle: Equatable {
 /// - Warning: the sizes of provided fonts will be ignored to avoid having the layout broken by extreme sizes.
 public struct HybridStyle: Equatable {
     public init(
+        showToggleButton: Bool = true,
         modeButtonTint: UIColor = .white,
         pickerModeButtonContent: ButtonStyle = .icon(
             image: UIImage(named: "keyboard",
@@ -112,6 +115,7 @@ public struct HybridStyle: Equatable {
         submitButtonColor: UIColor = .white,
         clock: ClockStyle = .init(),
         picker: PickerStyle = .init()) {
+        self.showToggleButton = showToggleButton
         self.modeButtonTint = modeButtonTint
         self.pickerModeButtonContent = pickerModeButtonContent
         self.clockModeButtonContent = clockModeButtonContent
@@ -122,23 +126,23 @@ public struct HybridStyle: Equatable {
         self.clock = clock
         self.picker = picker
     }
-    
-    var modeButtonTint: UIColor = .white
-    var pickerModeButtonContent: ButtonStyle = .icon(image: UIImage(
+    public var showToggleButton: Bool = true
+    public var modeButtonTint: UIColor = .white
+    public var pickerModeButtonContent: ButtonStyle = .icon(image: UIImage(
                                                         named: "keyboard",
                                                         in: Bundle(for: DroidHybridSelector.self),
                                                         compatibleWith: nil))
-    var clockModeButtonContent: ButtonStyle = .icon(image: UIImage(
+    public var clockModeButtonContent: ButtonStyle = .icon(image: UIImage(
                                                         named: "clock",
                                                         in: Bundle(for: DroidHybridSelector.self),
                                                         compatibleWith: nil))
-    var cancelButtonContent: ButtonStyle = .text(title: "CANCEL")
-    var submitButtonContent: ButtonStyle = .text(title: "OK")
-    var cancelButtonColor: UIColor = .white
-    var submitButtonColor: UIColor = .white
+    public var cancelButtonContent: ButtonStyle = .text(title: "CANCEL")
+    public var submitButtonContent: ButtonStyle = .text(title: "OK")
+    public var cancelButtonColor: UIColor = .white
+    public var submitButtonColor: UIColor = .white
     
-    var clock: ClockStyle = .init()
-    var picker: PickerStyle = .init()
+    public var clock: ClockStyle = .init()
+    public var picker: PickerStyle = .init()
 }
 
 /// A button style.
