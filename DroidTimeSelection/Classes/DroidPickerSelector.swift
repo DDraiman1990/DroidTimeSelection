@@ -8,61 +8,102 @@
 
 import UIKit
 
-public class DroidPickerSelector: UIView {
+/// A time selector showing a UIPickerView allowing the native pre-iOS 14 picker
+/// style selection.
+///
+/// Set the callback `onSelectionChanged` to get updates from this component.
+///
+/// - Change `timeFormat` to change the selection mode for the selector.
+/// - Change `style` to change the style of the selectors and the menu. See `PickerStyle` for more details about possible styling.
+@IBDesignable
+public class DroidPickerSelector: UIView, PickerTimeSelector {
+    
+    // MARK: - Storyboard Properties
+
+    @IBInspectable
+    var titleColor: UIColor = .white {
+        didSet {
+            style.titleColor = titleColor
+        }
+    }
+    @IBInspectable
+    var titleFont: UIFont = .systemFont(ofSize: 14) {
+        didSet {
+            style.titleFont = titleFont
+        }
+    }
+    @IBInspectable
+    var titleText: String = "Set Time" {
+        didSet {
+            style.titleText = titleText
+        }
+    }
+    @IBInspectable
+    var pickerFont: UIFont = .systemFont(ofSize: 14) {
+        didSet {
+            style.pickerFont = pickerFont
+        }
+    }
+    @IBInspectable
+    var pickerColor: UIColor = .white {
+        didSet {
+            style.pickerColor = pickerColor
+        }
+    }
     
     // MARK: - Public Properties
+    
+    /// The current time value of the selector. See `Time` object for more info.
     public var time: Time {
         return currentTime
     }
-    public var onSelectionChanged: ((Time) -> Void)?
     
-    public var config: DroidPickerSelectorConfiguration {
-        get {
-            return currentConfig
-        }
-        set {
-            let shouldRefresh = newValue != currentConfig
-            currentConfig = newValue
-            if shouldRefresh {
-                onConfigChanged()
+    /// Styling for selector.
+    public var style: PickerStyle = .init() {
+        didSet {
+            if oldValue != style {
+                onStyleChanged()
             }
         }
     }
     
+    /// Time format for the selector.
+    public var timeFormat: DroidTimeFormat = .twelve {
+        didSet {
+            onTimeFormatChanged()
+        }
+    }
+    
+    // Callbacks
+    
+    /// Will be called whenever the picker selection changes.
+    public var onSelectionChanged: ((Time) -> Void)?
+    
     // MARK: - Private Properties
-    private var currentConfig: DroidPickerSelectorConfiguration = .init()
+    
     private var currentTime: Time = .init() {
         didSet {
             onSelectionChanged?(currentTime)
         }
     }
     
-    // MARK: - Formatters
-    
-    private let timeFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
-        formatter.zeroFormattingBehavior = .pad
-        return formatter
-    }()
-    
     // MARK: - UI Components
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = config.titleFont
-        label.textColor = config.titleColor
         label.numberOfLines = 1
         label.textAlignment = .center
-        label.text = "Set time"
         label.isAccessibilityElement = true
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
     private lazy var timeDatePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .time
-        picker.setValue(config.pickerColor, forKeyPath: "textColor")
+        if #available(iOS 13.4, *) {
+            picker.preferredDatePickerStyle = .wheels
+        }
         picker.addTarget(
             self,
             action: #selector(onPickerSelectionChanged(_:)),
@@ -83,27 +124,30 @@ public class DroidPickerSelector: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: .zero)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         addSubview(contentStack)
         contentStack.anchor(
             in: self,
             padding: .init(top: 26, left: 26, bottom: 26, right: 26))
         contentStack.addArrangedSubview(titleLabel)
         contentStack.addArrangedSubview(timeDatePicker)
-        onConfigChanged()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        
+        onStyleChanged()
+        reset()
     }
     
     // MARK: - Helpers
     
-    private func onConfigChanged() {
-        titleLabel.font = config.titleFont
-        titleLabel.textColor = config.titleColor
-        timeDatePicker.setValue(config.pickerColor, forKeyPath: "textColor")
-        titleLabel.text = config.titleText
-        switch config.timeFormat {
+    private func onTimeFormatChanged() {
+        switch timeFormat {
         case .twelve:
             timeDatePicker.locale = Constants.FormatLocales.twelveHours
         case .twentyFour:
@@ -111,8 +155,18 @@ public class DroidPickerSelector: UIView {
         }
     }
     
+    private func onStyleChanged() {
+        titleLabel.font = style.titleFont.withSize(26)
+        titleLabel.textColor = style.titleColor
+        timeDatePicker.setValue(
+            style.pickerColor,
+            forKeyPath: Constants.PickerProperties.textColor)
+        titleLabel.text = style.titleText
+        onTimeFormatChanged()
+    }
+    
     private func selectHour(value: Int) {
-        switch config.timeFormat {
+        switch timeFormat {
         case .twelve:
             currentTime.twelveHoursFormat.hours = value
             currentTime.twentyFourHoursFormat.hours

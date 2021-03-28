@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DroidTimeSelection'
-  s.version          = '1.0.0'
+  s.version          = '2.0.0'
   s.summary          = 'The Android Time Selector for iOS.'
 
   s.description      = <<-DESC
@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'DroidTimeSelection/Classes/**/*'
+  s.resources = 'DroidTimeSelection/Assets/*.xcassets'
   s.swift_version = '5.0'
 
   s.frameworks = 'UIKit'
