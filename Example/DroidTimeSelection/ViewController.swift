@@ -49,7 +49,7 @@ class ViewController: UIViewController {
     @IBAction private func onShowTapped(_ sender: Any) {
         var style = HybridStyle()
         style.picker.titleColor = .white
-        style.clock.indicatorColor = .white
+        style.clock.indicatorColor = .blue
         style.modeButtonTint = .white
         style.cancelButtonContent = .text(title: "CANCEL")
         style.cancelButtonColor = .white
