@@ -52,6 +52,7 @@ class ViewController: UIViewController {
         style.picker.titleColor = .white
         style.clock.indicatorColor = .blue
         style.modeButtonTint = .red
+        vc.selector.set(time: self.time)
         vc.selector.onCancelTapped = {
             vc.dismiss(animated: true, completion: nil)
         }

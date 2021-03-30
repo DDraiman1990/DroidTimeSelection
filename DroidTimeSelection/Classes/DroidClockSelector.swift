@@ -387,6 +387,7 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         currentTime.twelveHoursFormat.am = am
         self.selectHour(value: hour)
         self.selectMinutes(value: minutes)
+        clockCollection.set(time: time)
         onCurrentTimeChanged()
     }
     
@@ -394,12 +395,14 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
     /// - Parameter time: Time representing the time selection.
     public func set(time: Time) {
         currentTime = time
+        clockCollection.set(time: time)
         onCurrentTimeChanged()
     }
     
     /// Reset the component. Sets time to 00:00 or 12am.
     public func reset() {
         currentTime = .init()
+        clockCollection.set(time: currentTime)
         changeMode(to: .hour) { _ in
             switch self.timeFormat {
             case .twelve:
