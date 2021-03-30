@@ -176,6 +176,11 @@ final class DroidClockCollectionView: UIView {
         self.addGestureRecognizer(touchRecognizer)
         self.addGestureRecognizer(panRecognizer)
         self.isUserInteractionEnabled = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.moveIndicatorToHour(self.selectedHour)
+            self.moveIndicatorToMinute(self.selectedMinute)
+        }
     }
     
     public override func layoutSubviews() {
@@ -249,6 +254,21 @@ final class DroidClockCollectionView: UIView {
     
     // MARK: - Indicator Logic | Public
     
+    public func moveIndicator(toTime time: Time) {
+        switch currentMode {
+        case .hour:
+            let hour = timeFormat == .twelve ?
+                time.twelveHoursFormat.hours :
+                time.twentyFourHoursFormat.hours
+            moveIndicatorToHour(hour)
+        case .minutes:
+            let minutes = timeFormat == .twelve ?
+                time.twelveHoursFormat.minutes :
+                time.twentyFourHoursFormat.minutes
+            moveIndicatorToMinute(minutes)
+        }
+    }
+    
     public func moveIndicatorToHour(_ hour: Int) {
         var index: Array<Int>.Index
         var indexPath: IndexPath
@@ -291,6 +311,17 @@ final class DroidClockCollectionView: UIView {
     }
     
     // MARK: - Helpers | Public
+    
+    public func set(time: Time) {
+        switch timeFormat {
+        case .twelve:
+            selectedHour = time.twelveHoursFormat.hours
+            selectedMinute = time.twelveHoursFormat.minutes
+        case .twentyFour:
+            selectedHour = time.twentyFourHoursFormat.hours
+            selectedMinute = time.twentyFourHoursFormat.minutes
+        }
+    }
     
     public func reloadData() {
         DispatchQueue.main.async {

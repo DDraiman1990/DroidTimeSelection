@@ -1,6 +1,6 @@
 {
   "name": "DroidTimeSelection",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "summary": "The Android Time Selector for iOS.",
   "description": "As someone who used Android for a long time, I found I really missed selecting time using the Android selector. So, I brought it to iOS and mixed it with the manual selection of the UIDatePicker, native to iOS. Now we can enjoy the best of both worlds :D",
   "homepage": "https://github.com/DDraiman1990/DroidTimeSelection",
@@ -13,12 +13,13 @@
   },
   "source": {
     "git": "https://github.com/DDraiman1990/DroidTimeSelection.git",
-    "tag": "2.0.0"
+    "tag": "2.0.1"
   },
   "platforms": {
     "ios": "11.0"
   },
   "source_files": "DroidTimeSelection/Classes/**/*",
+  "exclude_files": "DroidTimeSelection/**/*.plist",
   "resources": "DroidTimeSelection/Assets/*.xcassets",
   "swift_versions": "5.0",
   "frameworks": "UIKit",
