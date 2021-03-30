@@ -256,7 +256,7 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         switch style {
         case .icon(let image):
             button.setTitle("", for: .normal)
-            button.setImage(image, for: .normal)
+            button.setImage(image?.withRenderingMode(.alwaysTemplate), for: .normal)
         case .text(let title):
             button.setTitle(title, for: .normal)
             button.setImage(nil, for: .normal)
@@ -285,12 +285,15 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         hourPicker.style = style.picker
         
         modeButton.tintColor = style.modeButtonTint
+        modeButton.setTitleColor(style.modeButtonTint, for: .normal)
         refreshModeButton()
         
         okButton.tintColor = style.submitButtonColor
+        okButton.setTitleColor(style.submitButtonColor, for: .normal)
         styleButton(okButton, with: style.submitButtonContent)
         
         cancelButton.tintColor = style.cancelButtonColor
+        cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         styleButton(cancelButton, with: style.cancelButtonContent)
     }
     
