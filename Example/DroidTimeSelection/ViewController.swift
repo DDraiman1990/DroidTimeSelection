@@ -47,11 +47,14 @@ class ViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction private func onShowTapped(_ sender: Any) {
-        let vc = DroidFactory.Hybrid.viewController(timeFormat: timeFormat, style: .init())
         var style = HybridStyle()
         style.picker.titleColor = .white
-        style.clock.indicatorColor = .blue
-        style.modeButtonTint = .red
+        style.clock.indicatorColor = .white
+        style.modeButtonTint = .white
+        style.cancelButtonContent = .text(title: "CANCEL")
+        style.cancelButtonColor = .white
+        style.submitButtonColor = .white
+        let vc = DroidFactory.Hybrid.viewController(timeFormat: timeFormat, style: style)
         vc.selector.set(time: self.time)
         vc.selector.onCancelTapped = {
             vc.dismiss(animated: true, completion: nil)
