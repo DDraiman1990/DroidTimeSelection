@@ -266,10 +266,10 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     private func refreshModeButton() {
         switch mode {
         case .clock:
-            styleButton(modeButton, with: style.clockModeButtonContent)
+            styleButton(modeButton, with: style.pickerModeButtonContent)
             modeButton.accessibilityValue = "Clock selection mode"
         case .picker:
-            styleButton(modeButton, with: style.pickerModeButtonContent)
+            styleButton(modeButton, with: style.clockModeButtonContent)
             modeButton.accessibilityValue = "Picker selection mode"
         }
         modeButton.isHidden = !style.showToggleButton
