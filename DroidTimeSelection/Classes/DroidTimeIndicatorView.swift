@@ -42,18 +42,23 @@ final class DroidTimeIndicatorView: UIView {
     }
     
     @IBInspectable
+    var secondsColor: UIColor = .white {
+        didSet {
+            secondsLabelButton.setTitleColor(secondsColor, for: .normal)
+        }
+    }
+    
+    @IBInspectable
     var amPmFont: UIFont = .systemFont(ofSize: 30) {
         didSet {
-            amLabelButton.titleLabel?.font = amPmFont.withSize(30)
-            pmLabelButton.titleLabel?.font = amPmFont.withSize(30)
+            refreshFonts()
         }
     }
     
     @IBInspectable
     var timeFont: UIFont = .systemFont(ofSize: 60) {
         didSet {
-            hoursLabelButton.titleLabel?.font = timeFont.withSize(60)
-            minutesLabelButton.titleLabel?.font = timeFont.withSize(60)
+            refreshFonts()
         }
     }
     
@@ -61,14 +66,31 @@ final class DroidTimeIndicatorView: UIView {
     
     var onHoursTapped: (() -> Void)?
     var onMinutesTapped: (() -> Void)?
+    var onSecondsTapped: (() -> Void)?
     var onAmTapped: (() -> Void)?
     var onPmTapped: (() -> Void)?
     
     // MARK: - Properties
     
+    private var timeIndicationFontSize: CGFloat {
+        if showSeconds {
+            return timeFormat == .twelve ? 48 : 56
+        }
+        return 60
+    }
+    private var amPmIndicatorFontSize: CGFloat {
+        return showSeconds ? 26 : 30
+    }
+    
     var timeFormat: DroidTimeFormat = .twelve {
         didSet {
             onTimeFormatChanged()
+        }
+    }
+    
+    var showSeconds: Bool = false {
+        didSet {
+            onShowSecondsChanged()
         }
     }
     
@@ -89,6 +111,15 @@ final class DroidTimeIndicatorView: UIView {
         return button
     }()
     
+    private lazy var secondsLabelButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(secondsTapped), for: .touchUpInside)
+        button.isAccessibilityElement = true
+        button.accessibilityLabel
+            = "Button showing the seconds value. Tap to change to seconds selection."
+        return button
+    }()
+    
     private lazy var minutesLabelButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(minutesTapped), for: .touchUpInside)
@@ -106,6 +137,7 @@ final class DroidTimeIndicatorView: UIView {
         stack.spacing = 0
         stack.addArrangedSubview(hoursLabelButton)
         stack.addArrangedSubview(minutesLabelButton)
+        stack.addArrangedSubview(secondsLabelButton)
         return stack
     }()
     
@@ -174,6 +206,10 @@ final class DroidTimeIndicatorView: UIView {
         onHoursTapped?()
     }
     
+    @objc private func secondsTapped() {
+        onSecondsTapped?()
+    }
+    
     @objc private func minutesTapped() {
         onMinutesTapped?()
     }
@@ -188,8 +224,23 @@ final class DroidTimeIndicatorView: UIView {
     
     // MARK: - Helpers
     
+    private func refreshFonts() {
+        amLabelButton.titleLabel?.font = amPmFont.withSize(amPmIndicatorFontSize)
+        pmLabelButton.titleLabel?.font = amPmFont.withSize(amPmIndicatorFontSize)
+        hoursLabelButton.titleLabel?.font = timeFont.withSize(timeIndicationFontSize)
+        minutesLabelButton.titleLabel?.font = timeFont.withSize(timeIndicationFontSize)
+        secondsLabelButton.titleLabel?.font = timeFont.withSize(timeIndicationFontSize)
+    }
+    
+    private func onShowSecondsChanged() {
+        secondsLabelButton.isHidden = !showSeconds
+        refreshFonts()
+        onTimeFormatChanged()
+    }
+    
     private func onTimeFormatChanged() {
         amPmStack.isHidden = timeFormat != .twelve
+        secondsLabelButton.isHidden = !showSeconds
         onCurrentTimeChanged()
     }
     
@@ -200,6 +251,9 @@ final class DroidTimeIndicatorView: UIView {
         let minutes = timeFormat == .twelve ?
             time.twelveHoursFormat.minutes
             : time.twentyFourHoursFormat.minutes
+        let seconds = timeFormat == .twelve ?
+            time.twelveHoursFormat.seconds
+            : time.twentyFourHoursFormat.seconds
         let hourFormatter = Formatters.hourFormatter
         hourFormatter.zeroFormattingBehavior = timeFormat != .twelve
             ? .pad
@@ -208,7 +262,10 @@ final class DroidTimeIndicatorView: UIView {
             .string(from: TimeInterval(hours * 3600))
         let minutesText = Formatters.minutesFormatter
             .string(from: TimeInterval(minutes * 60)) ?? ""
+        let secondsText = Formatters.secondsFormatter
+            .string(from: TimeInterval(seconds)) ?? ""
         hoursLabelButton.setTitle(hoursText, for: .normal)
         minutesLabelButton.setTitle(":\(minutesText)", for: .normal)
+        secondsLabelButton.setTitle(":\(secondsText)", for: .normal)
     }
 }

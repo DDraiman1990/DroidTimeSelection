@@ -12,13 +12,15 @@ public protocol DroidTimeSelector: UIView {
     var onSelectionChanged: ((Time) -> Void)? { get set }
     var time: Time { get }
     var timeFormat: DroidTimeFormat { get set }
+    var showSeconds: Bool { get set }
     
     /// Set the current time selection to the given parameters.
     /// - Parameters:
     ///   - hour: the hour number.
     ///   - minutes: the amount of minutes.
+    ///   - seconds: the amount of seconds.
     ///   - am: if time is am/pm or nil for 24 hours format.
-    func set(hour: Int, minutes: Int, am: Bool?)
+    func set(hour: Int, minutes: Int, seconds: Int, am: Bool?)
     
     /// Set the current time selection to the given parameters.
     /// - Parameter time: Time representing the time selection.
@@ -26,6 +28,17 @@ public protocol DroidTimeSelector: UIView {
     
     /// Reset the component. Sets time to 00:00 or 12am.
     func reset()
+}
+
+extension DroidTimeSelector {
+    /// Set the current time selection to the given parameters.
+    /// - Parameters:
+    ///   - hour: the hour number.
+    ///   - minutes: the amount of minutes.
+    ///   - am: if time is am/pm or nil for 24 hours format.
+    func set(hour: Int, minutes: Int, am: Bool?) {
+        self.set(hour: hour, minutes: minutes, seconds: 0, am: am)
+    }
 }
 
 /// A time selector showing a time indicator along with a physical clock to

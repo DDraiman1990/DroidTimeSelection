@@ -29,4 +29,10 @@ internal enum Formatters {
         formatter.zeroFormattingBehavior = .pad //Depending on AM or PM
         return formatter
     }()
+    internal static let secondsFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second]
+        formatter.zeroFormattingBehavior = .pad //Depending on AM or PM
+        return formatter
+    }()
 }

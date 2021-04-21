@@ -74,6 +74,13 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         }
     }
     
+    /// Should seconds be selectable
+    public var showSeconds: Bool = false {
+        didSet {
+            onTimeFormatChanged()
+        }
+    }
+    
     // Callbacks
     
     /// Will be called whenever the picker selection changes.
@@ -204,26 +211,18 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     
     // MARK: - Public Interface
 
-    /// Set the current time selection to the given parameters.
-    /// - Parameters:
-    ///   - hour: the hour number.
-    ///   - minutes: the amount of minutes.
-    ///   - am: if time is am/pm or nil for 24 hours format.
-    public func set(hour: Int, minutes: Int, am: Bool?) {
+    public func set(hour: Int, minutes: Int, seconds: Int, am: Bool?) {
         currentTime.twelveHoursFormat.am = am
         self.selectHour(value: hour)
         self.selectMinutes(value: minutes)
         onCurrentTimeChanged()
     }
     
-    /// Set the current time selection to the given parameters.
-    /// - Parameter time: Time representing the time selection.
     public func set(time: Time) {
         currentTime = time
         onCurrentTimeChanged()
     }
     
-    /// Reset the component. Sets time to 00:00 or 12am.
     public func reset() {
         set(time: .init())
     }

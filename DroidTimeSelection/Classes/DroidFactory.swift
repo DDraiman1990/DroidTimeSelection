@@ -12,17 +12,23 @@ public enum DroidFactory {
     public enum Hybrid {
         public static func view(
             timeFormat: DroidTimeFormat = .twentyFour,
+            showSeconds: Bool = false,
             style: HybridStyle = .init()) -> DroidHybridSelector {
             let selector = DroidHybridSelector()
             selector.timeFormat = timeFormat
             selector.style = style
+            selector.showSeconds = showSeconds
             return selector
         }
         
         public static func viewController(
             timeFormat: DroidTimeFormat = .twentyFour,
+            showSeconds: Bool = false,
             style: HybridStyle = .init()) -> HybridDroidViewController {
-            let selector = Hybrid.view(timeFormat: timeFormat, style: style)
+            let selector = Hybrid.view(
+                timeFormat: timeFormat,
+                showSeconds: showSeconds,
+                style: style)
             return HybridDroidViewController(selector: selector)
         }
     }
@@ -30,10 +36,12 @@ public enum DroidFactory {
     public enum Clock {
         public static func view(
             timeFormat: DroidTimeFormat = .twentyFour,
+            showSeconds: Bool = false,
             style: ClockStyle = .init()) -> DroidClockSelector {
             let selector = DroidClockSelector()
             selector.timeFormat = timeFormat
             selector.style = style
+            selector.showSeconds = showSeconds
             return selector
         }
     }
@@ -41,10 +49,12 @@ public enum DroidFactory {
     public enum Picker {
         public static func view(
             timeFormat: DroidTimeFormat = .twentyFour,
+            showSeconds: Bool = false,
             style: PickerStyle = .init()) -> DroidPickerSelector {
             let selector = DroidPickerSelector()
             selector.timeFormat = timeFormat
             selector.style = style
+            selector.showSeconds = showSeconds
             return selector
         }
     }

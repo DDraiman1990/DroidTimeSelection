@@ -95,6 +95,13 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         }
     }
     
+    /// Should seconds be selectable
+    public var showSeconds: Bool = false {
+        didSet {
+            onTimeFormatChanged()
+        }
+    }
+    
     /// The current time value of the selector. See `Time` object for more info.
     public var time: Time {
         return currentTime
@@ -181,6 +188,9 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         timeIndicator.onMinutesTapped = { [weak self] in
             self?.onMinutesLabelTapped()
         }
+        timeIndicator.onSecondsTapped = { [weak self] in
+            self?.onSecondsLabelTapped()
+        }
     }
     
     private func bindClockCollection() {
@@ -192,18 +202,23 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
             self?.onMinuteSelected(minute)
         }
         
+        clockCollection.onSecondSelected = { [weak self] second in
+            self?.onSecondsSelected(second)
+        }
+        
         clockCollection.onHourSelectionEnded = { [weak self] value in
             self?.onHourSelectionEnded()
         }
         
         clockCollection.onMinuteSelectionEnded = { [weak self] value in
-            guard let time = self?.time else {
-                return
-            }
-            self?.onSelectionEnded?(time)
+            self?.onMinuteSelectionEnded()
+        }
+        
+        clockCollection.onSecondSelectionEnded = { [weak self] value in
+            self?.onSecondSelectionEnded()
         }
     }
-    
+        
     // MARK: - Helpers
     
     private func onHourSelectionEnded() {
@@ -223,6 +238,30 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         }
     }
     
+    private func onMinuteSelectionEnded() {
+        if showSeconds {
+            changeMode(to: .seconds) { _ in
+                switch self.timeFormat {
+                case .twelve:
+                    self.clockCollection.moveIndicatorToSecond(self
+                        .time
+                        .twelveHoursFormat
+                        .seconds)
+                case .twentyFour:
+                    self.clockCollection.moveIndicatorToSecond(self
+                        .time
+                        .twentyFourHoursFormat
+                        .seconds)
+                }
+            }
+        }
+        onSelectionEnded?(time)
+    }
+    
+    private func onSecondSelectionEnded() {
+        onSelectionEnded?(time)
+    }
+    
     private func onHourSelected(_ hour: Int) {
         selectHour(value: hour)
     }
@@ -231,21 +270,38 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         selectMinutes(value: minute)
     }
     
+    private func onSecondsSelected(_ second: Int) {
+        selectSeconds(value: second)
+    }
+    
     private func moveIndicatorToReflectSelection() {
         switch currentMode {
         case .hour:
             switch timeFormat {
             case .twelve:
-                clockCollection.moveIndicatorToHour(self.time.twelveHoursFormat.hours)
+                clockCollection.moveIndicatorToHour(
+                    self.time.twelveHoursFormat.hours)
             case .twentyFour:
-                clockCollection.moveIndicatorToHour(self.time.twentyFourHoursFormat.hours)
+                clockCollection.moveIndicatorToHour(
+                    self.time.twentyFourHoursFormat.hours)
             }
         case .minutes:
             switch timeFormat {
             case .twelve:
-                clockCollection.moveIndicatorToMinute(self.time.twelveHoursFormat.minutes)
+                clockCollection.moveIndicatorToMinute(
+                    self.time.twelveHoursFormat.minutes)
             case .twentyFour:
-                clockCollection.moveIndicatorToMinute(self.time.twentyFourHoursFormat.minutes)
+                clockCollection.moveIndicatorToMinute(
+                    self.time.twentyFourHoursFormat.minutes)
+            }
+        case .seconds:
+            switch timeFormat {
+            case .twelve:
+                clockCollection.moveIndicatorToSecond(
+                    self.time.twelveHoursFormat.seconds)
+            case .twentyFour:
+                clockCollection.moveIndicatorToSecond(
+                    self.time.twentyFourHoursFormat.seconds)
             }
         }
     }
@@ -254,9 +310,11 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         changeMode(to: .hour) { _ in
             switch self.timeFormat {
             case .twelve:
-                self.clockCollection.moveIndicatorToHour(self.time.twelveHoursFormat.hours)
+                self.clockCollection.moveIndicatorToHour(
+                    self.time.twelveHoursFormat.hours)
             case .twentyFour:
-                self.clockCollection.moveIndicatorToHour(self.time.twentyFourHoursFormat.hours)
+                self.clockCollection.moveIndicatorToHour(
+                    self.time.twentyFourHoursFormat.hours)
             }
         }
     }
@@ -265,9 +323,24 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         changeMode(to: .minutes) { _ in
             switch self.timeFormat {
             case .twelve:
-                self.clockCollection.moveIndicatorToMinute(self.time.twelveHoursFormat.minutes)
+                self.clockCollection.moveIndicatorToMinute(
+                    self.time.twelveHoursFormat.minutes)
             case .twentyFour:
-                self.clockCollection.moveIndicatorToMinute(self.time.twentyFourHoursFormat.minutes)
+                self.clockCollection.moveIndicatorToMinute(
+                    self.time.twentyFourHoursFormat.minutes)
+            }
+        }
+    }
+    
+    private func onSecondsLabelTapped() {
+        changeMode(to: .seconds) { _ in
+            switch self.timeFormat {
+            case .twelve:
+                self.clockCollection.moveIndicatorToSecond(
+                    self.time.twelveHoursFormat.seconds)
+            case .twentyFour:
+                self.clockCollection.moveIndicatorToSecond(
+                    self.time.twentyFourHoursFormat.seconds)
             }
         }
     }
@@ -277,6 +350,7 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         set(
             hour: time.twelveHoursFormat.hours,
             minutes: time.twelveHoursFormat.minutes,
+            seconds: time.twelveHoursFormat.seconds,
             am: true)
     }
     
@@ -285,6 +359,7 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         set(
             hour: time.twelveHoursFormat.hours,
             minutes: time.twelveHoursFormat.minutes,
+            seconds: time.twelveHoursFormat.seconds,
             am: false)
     }
     
@@ -312,6 +387,11 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
     private func selectMinutes(value: Int) {
         currentTime.twentyFourHoursFormat.minutes = value
         currentTime.twelveHoursFormat.minutes = value
+    }
+    
+    private func selectSeconds(value: Int) {
+        currentTime.twentyFourHoursFormat.seconds = value
+        currentTime.twelveHoursFormat.seconds = value
     }
     
     private func onModeChanged(completion: ((Bool) -> Void)?) {
@@ -346,6 +426,10 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
         timeIndicator.minutesColor = mode == .minutes ?
             selectedColor :
             deselectedColor
+        
+        timeIndicator.secondsColor = mode == .seconds ?
+            selectedColor :
+            deselectedColor
         if let isAm = time.twelveHoursFormat.am {
             timeIndicator.amColor = isAm ?
                 selectedColor :
@@ -368,7 +452,9 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
     
     private func onTimeFormatChanged() {
         clockCollection.timeFormat = self.timeFormat
+        clockCollection.showSeconds = self.showSeconds
         timeIndicator.timeFormat = self.timeFormat
+        timeIndicator.showSeconds = self.showSeconds
         onCurrentTimeChanged()
     }
     
@@ -378,28 +464,21 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
     
     // MARK: - Public Interface
     
-    /// Set the current time selection to the given parameters.
-    /// - Parameters:
-    ///   - hour: the hour number.
-    ///   - minutes: the amount of minutes.
-    ///   - am: if time is am/pm or nil for 24 hours format.
-    public func set(hour: Int, minutes: Int, am: Bool?) {
+    public func set(hour: Int, minutes: Int, seconds: Int, am: Bool?) {
         currentTime.twelveHoursFormat.am = am
         self.selectHour(value: hour)
         self.selectMinutes(value: minutes)
+        self.selectSeconds(value: seconds)
         clockCollection.set(time: time)
         onCurrentTimeChanged()
     }
     
-    /// Set the current time selection to the given parameters.
-    /// - Parameter time: Time representing the time selection.
     public func set(time: Time) {
         currentTime = time
         clockCollection.set(time: time)
         onCurrentTimeChanged()
     }
     
-    /// Reset the component. Sets time to 00:00 or 12am.
     public func reset() {
         currentTime = .init()
         clockCollection.set(time: currentTime)
@@ -416,5 +495,5 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
 }
 
 internal enum ClockSelectionMode {
-    case hour, minutes
+    case hour, minutes, seconds
 }
