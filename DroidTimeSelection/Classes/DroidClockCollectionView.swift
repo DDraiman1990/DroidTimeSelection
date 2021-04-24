@@ -91,7 +91,7 @@ final class DroidClockCollectionView: UIView {
         }
     }
     
-    public var showSeconds: Bool = false {
+    public var enableSeconds: Bool = false {
         didSet {
             reloadData()
         }
@@ -238,7 +238,7 @@ final class DroidClockCollectionView: UIView {
                 case .hour:
                     onHourSelectionEnded?(selectedHour)
                 case .minutes:
-                    if showSeconds {
+                    if enableSeconds {
                         onMinuteSelectionEnded?(selectedMinute)
                     }
                 default:

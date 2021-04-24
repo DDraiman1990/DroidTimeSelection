@@ -96,7 +96,7 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
     }
     
     /// Should seconds be selectable
-    public var showSeconds: Bool = false {
+    public var enableSeconds: Bool = false {
         didSet {
             onTimeFormatChanged()
         }
@@ -239,7 +239,7 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
     }
     
     private func onMinuteSelectionEnded() {
-        if showSeconds {
+        if enableSeconds {
             changeMode(to: .seconds) { _ in
                 switch self.timeFormat {
                 case .twelve:
@@ -452,9 +452,9 @@ public class DroidClockSelector: UIView, ClockTimeSelector {
     
     private func onTimeFormatChanged() {
         clockCollection.timeFormat = self.timeFormat
-        clockCollection.showSeconds = self.showSeconds
+        clockCollection.enableSeconds = self.enableSeconds
         timeIndicator.timeFormat = self.timeFormat
-        timeIndicator.showSeconds = self.showSeconds
+        timeIndicator.enableSeconds = self.enableSeconds
         onCurrentTimeChanged()
     }
     

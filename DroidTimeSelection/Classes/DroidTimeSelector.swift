@@ -12,7 +12,7 @@ public protocol DroidTimeSelector: UIView {
     var onSelectionChanged: ((Time) -> Void)? { get set }
     var time: Time { get }
     var timeFormat: DroidTimeFormat { get set }
-    var showSeconds: Bool { get set }
+    var enableSeconds: Bool { get set }
     
     /// Set the current time selection to the given parameters.
     /// - Parameters:

@@ -122,7 +122,7 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     }
     
     /// Should seconds be selectable
-    public var showSeconds: Bool = false {
+    public var enableSeconds: Bool = false {
         didSet {
             onTimeFormatChanged()
         }
@@ -239,17 +239,17 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         clockSelector.set(time: time)
         hourPicker.onSelectionChanged = { [weak self] time in
             self?.currentTime = time
-            if let value = self?.clockSelector.time, value != time {
-                self?.clockSelector.set(time: time)
-            }
+//            if let value = self?.clockSelector.time, value != time {
+//                self?.clockSelector.set(time: time)
+//            }
             self?.onSelectionChanged?(time)
         }
         
         clockSelector.onSelectionChanged = { [weak self] time in
             self?.currentTime = time
-            if let value = self?.hourPicker.time, value != time {
-                self?.hourPicker.set(time: time)
-            }
+//            if let value = self?.hourPicker.time, value != time {
+//                self?.hourPicker.set(time: time)
+//            }
             self?.onSelectionChanged?(time)
         }
         
@@ -283,10 +283,10 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     }
     
     private func onTimeFormatChanged() {
-        clockSelector.showSeconds = showSeconds
+        clockSelector.enableSeconds = enableSeconds
         clockSelector.timeFormat = timeFormat
         hourPicker.timeFormat = timeFormat
-        hourPicker.showSeconds = showSeconds
+        hourPicker.enableSeconds = enableSeconds
     }
     
     private func onStyleChanged() {
@@ -335,6 +335,8 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         refreshModeButton()
         clockSelector.isHidden = mode != .clock
         hourPicker.isHidden = mode != .picker
+        clockSelector.set(time: time)
+        hourPicker.set(time: time)
     }
     
     @objc private func cancelTapped() {

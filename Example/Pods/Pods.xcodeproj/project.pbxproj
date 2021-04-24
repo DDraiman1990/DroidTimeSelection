@@ -73,8 +73,8 @@
 		5906268B794B39BDC46E05E114139B1C /* Pods-DroidTimeSelection_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroidTimeSelection_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5C980464E01D75E03BA79EC9E8EDC539 /* DroidTimeSelection.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = DroidTimeSelection.modulemap; sourceTree = "<group>"; };
 		635860B439C2366ABC99C61EDD3609E7 /* DroidPickerSelector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidPickerSelector.swift; path = DroidTimeSelection/Classes/DroidPickerSelector.swift; sourceTree = "<group>"; };
-		6407AA182627D46400920DB5 /* DroidUITimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroidUITimePicker.swift; sourceTree = "<group>"; };
-		64A3FB19262C731E0080EE41 /* DroidUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroidUtilities.swift; sourceTree = "<group>"; };
+		6407AA182627D46400920DB5 /* DroidUITimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DroidUITimePicker.swift; path = DroidTimeSelection/Classes/DroidUITimePicker.swift; sourceTree = "<group>"; };
+		64A3FB19262C731E0080EE41 /* DroidUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DroidUtilities.swift; path = DroidTimeSelection/Classes/DroidUtilities.swift; sourceTree = "<group>"; };
 		662DAF9C5C582D53BC5BAC1F191E13A9 /* Pods-DroidTimeSelection_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DroidTimeSelection_Example.modulemap"; sourceTree = "<group>"; };
 		733C3D6FDB7B67CCFC5D945C346BD4E4 /* DroidClockCollectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidClockCollectionView.swift; path = DroidTimeSelection/Classes/DroidClockCollectionView.swift; sourceTree = "<group>"; };
 		756CB9FCBEE04F152A67D4B5ACAC08CA /* DroidTimeSelection-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DroidTimeSelection-prefix.pch"; sourceTree = "<group>"; };
@@ -538,7 +538,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/DroidTimeSelection/DroidTimeSelection-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/DroidTimeSelection/DroidTimeSelection-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/DroidTimeSelection/DroidTimeSelection.modulemap";
 				PRODUCT_MODULE_NAME = DroidTimeSelection;
@@ -571,7 +571,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/DroidTimeSelection/DroidTimeSelection-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/DroidTimeSelection/DroidTimeSelection-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/DroidTimeSelection/DroidTimeSelection.modulemap";
 				PRODUCT_MODULE_NAME = DroidTimeSelection;

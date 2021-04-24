@@ -15,6 +15,7 @@ import UIKit
 ///
 /// - Change `timeFormat` to change the selection mode for the selector.
 /// - Change `style` to change the style of the selectors and the menu. See `PickerStyle` for more details about possible styling.
+@available(iOS 13.0, *)
 @IBDesignable
 public class DroidPickerSelector: UIView, PickerTimeSelector {
     
@@ -75,7 +76,7 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     }
     
     /// Should seconds be selectable
-    public var showSeconds: Bool = false {
+    public var enableSeconds: Bool = false {
         didSet {
             onTimeFormatChanged()
         }
@@ -105,16 +106,11 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         return label
     }()
     
-    private lazy var timeDatePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .time
-        if #available(iOS 13.4, *) {
-            picker.preferredDatePickerStyle = .wheels
+    private lazy var timeDatePicker: DroidUITimePicker = {
+        let picker = DroidUITimePicker()
+        picker.onValueChanged = { [weak self] time in
+            self?.onPickerSelectionChanged(to: time)
         }
-        picker.addTarget(
-            self,
-            action: #selector(onPickerSelectionChanged(_:)),
-            for: .valueChanged)
         return picker
     }()
     
@@ -146,7 +142,7 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
             padding: .init(top: 26, left: 26, bottom: 26, right: 26))
         contentStack.addArrangedSubview(titleLabel)
         contentStack.addArrangedSubview(timeDatePicker)
-        
+        timeDatePicker.width(multiplier: 1.0, relativeTo: contentStack)
         onStyleChanged()
         reset()
     }
@@ -154,20 +150,14 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     // MARK: - Helpers
     
     private func onTimeFormatChanged() {
-        switch timeFormat {
-        case .twelve:
-            timeDatePicker.locale = Constants.FormatLocales.twelveHours
-        case .twentyFour:
-            timeDatePicker.locale = Constants.FormatLocales.twentyFourHours
-        }
+        timeDatePicker.timeFormat = timeFormat
+        timeDatePicker.enableSeconds = enableSeconds
     }
     
     private func onStyleChanged() {
         titleLabel.font = style.titleFont.withSize(26)
         titleLabel.textColor = style.titleColor
-        timeDatePicker.setValue(
-            style.pickerColor,
-            forKeyPath: Constants.PickerProperties.textColor)
+        timeDatePicker.set(textColor: style.pickerColor)
         titleLabel.text = style.titleText
         onTimeFormatChanged()
     }
@@ -191,22 +181,19 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         currentTime.twelveHoursFormat.minutes = value
     }
     
+    private func selectSeconds(value: Int) {
+        currentTime.twentyFourHoursFormat.seconds = value
+        currentTime.twelveHoursFormat.seconds = value
+    }
+    
     private func onCurrentTimeChanged() {
-        timeDatePicker.date = self.time.date(relativeTo: Date()) ?? Date()
+        timeDatePicker.set(time: self.time)
     }
     
     // MARK: - Actions
     
-    @objc private func onPickerSelectionChanged(_ picker: UIDatePicker) {
-        let components = Calendar
-            .current
-            .dateComponents([.hour, .minute],
-                            from: picker.date)
-        guard let hour = components.hour, let minutes = components.minute else {
-            return
-        }
-        selectHour(value: hour)
-        selectMinutes(value: minutes)
+    private func onPickerSelectionChanged(to value: Time) {
+        self.currentTime = value
     }
     
     // MARK: - Public Interface
@@ -215,6 +202,7 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         currentTime.twelveHoursFormat.am = am
         self.selectHour(value: hour)
         self.selectMinutes(value: minutes)
+        self.selectSeconds(value: seconds)
         onCurrentTimeChanged()
     }
     

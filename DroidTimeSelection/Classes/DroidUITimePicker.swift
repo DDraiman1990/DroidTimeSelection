@@ -9,32 +9,40 @@ import UIKit
 import Combine
 
 @available(iOS 13.0, *)
+
+/// A time picker (similar to DatePicker when choosing time) that allows
+/// choosing seconds.
 public final class DroidUITimePicker: UIView {
     
-    //TODO: Toggle AM/PM when 12 is passed
+    // MARK: - Properties | Constants
+    
+    //To allow "infinite" cyclic scrolling we have to multiply rows by this modifier.
     private let infiniteModifier = 200
     private let twentyFourHours: [Int] = Array(0...23)
+    //The reason for having 24 is to have 12 with am and 12 with pm
+    //It gives the ability to mimic the same UIDatePicker behavior for AM/PM
     private let twelveHours = Array(1...12) + Array(1...12)
     private let minutes = Array(0...59)
     private let seconds = Array(0...59)
     private let amPm = ["AM", "PM"]
-    private var lastSelectedHourIndex: Int = 0
-    private var lastSelectedAm: Bool = false
-    private var seenTwelves: Set<Int> = []
     
-    private lazy var indexSeenDebouncer = QueryDebouncer<Int, DispatchQueue>(debounce: 0.25, queue: .main) { [weak self] index in
+    // MARK: - Properties | Private
+        
+    private lazy var indexSeenDebouncer =
+        QueryDebouncer<Int, DispatchQueue>(
+            debounce: 0.25, queue: .main) { [weak self] index in
         self?.onSeen(index: index)
     }
     
-    private func onSeen(index: Int) {
-        setAmPm(toAm: isHourAm(realIndex: index), animated: true)
+    private (set) var value: Time = .init() {
+        didSet {
+            onValueChanged?(value)
+        }
     }
     
-    private let panGesture: UIPanGestureRecognizer = {
-        let gesture = UIPanGestureRecognizer()
-        gesture.cancelsTouchesInView = false
-        return gesture
-    }()
+    // MARK: - Properties | Public
+    
+    var onValueChanged: ((Time) -> Void)?
     
     /// Time format for the selector.
     public var timeFormat: DroidTimeFormat = .twelve {
@@ -43,17 +51,18 @@ public final class DroidUITimePicker: UIView {
         }
     }
     
-    public var showSeconds: Bool = false {
+    /// Whether or not to allow seconds field.
+    public var enableSeconds: Bool = false {
         didSet {
             onTimeFormatChanged()
         }
     }
     
-    private var currentTime: Time = .init()
-    
-    public var value: TimeInterval {
-        return currentTime.timeInterval
+    public var timeInterval: TimeInterval {
+        return value.timeInterval
     }
+    
+    // MARK: - UI Components
     
     private lazy var pickerView: UIPickerView = {
         let view = UIPickerView()
@@ -62,21 +71,36 @@ public final class DroidUITimePicker: UIView {
         return view
     }()
     
+    // MARK: - Lifecycle
+    
     public init() {
         super.init(frame: .zero)
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+    }
+    
+    // MARK: - Methods | Setup
+    
+    private func setup() {
         addSubview(pickerView)
-        anchor(in: self, to: [.top(), .left(), .right()])
+        pickerView.anchor(in: self, to: [.bottom(), .top(), .left(), .right()])
+        resetSelection()
+    }
+    
+    // MARK: - Methods | Helpers
+    
+    private func onSeen(index: Int) {
+        setAmPm(toAm: isHourAm(realIndex: index), animated: true)
+    }
+    
+    private func resetSelection() {
         for comp in 0..<pickerView.numberOfComponents {
             selectRow(0, inComponent: comp, animated: false)
         }
-        panGesture.addTarget(self, action: #selector(didPan(_:)))
-        panGesture.delegate = self
-        pickerView.addGestureRecognizer(panGesture)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private func onTimeFormatChanged() {
@@ -84,21 +108,12 @@ public final class DroidUITimePicker: UIView {
         reflectSelection()
     }
     
-    @objc private func didPan(_ gesture: UIGestureRecognizer) {
-        switch gesture.state {
-        case .began:
-            lastSelectedHourIndex = pickerView.selectedRow(inComponent: 0)
-            lastSelectedAm = currentTime.twelveHoursFormat.am ?? false
-        default: break
-        }
-    }
-    
     private func setAmPm(toAm am: Bool, animated: Bool) {
         guard timeFormat == .twelve else {
             return
         }
-        currentTime.twelveHoursFormat.am = am
-        if showSeconds {
+        value.twelveHoursFormat.am = am
+        if enableSeconds {
             selectRow(am ? 0 : 1, inComponent: 3, animated: animated)
         } else {
             selectRow(am ? 0 : 1, inComponent: 2, animated: animated)
@@ -108,31 +123,31 @@ public final class DroidUITimePicker: UIView {
     private func reflectSelection() {
         switch timeFormat {
         case .twelve:
-            let hour = currentTime.twelveHoursFormat.hours
-            let minute = currentTime.twelveHoursFormat.minutes
-            let second = currentTime.twelveHoursFormat.seconds
-            let isAm = currentTime.twelveHoursFormat.am ?? false
+            let hour = value.twelveHoursFormat.hours
+            let minute = value.twelveHoursFormat.minutes
+            let second = value.twelveHoursFormat.seconds
+            let isAm = value.twelveHoursFormat.am ?? false
             
             if let hourRow = twelveHours.firstIndex(of: hour) {
-                selectRow(hourRow, inComponent: 0, animated: false)
+                let index = hourRow + (isAm ? 0 : 12)
+                selectRow(index, inComponent: 0, animated: false)
             }
             
             if let minuteRow = minutes.firstIndex(of: minute) {
                 selectRow(minuteRow, inComponent: 1, animated: false)
             }
             
-            if showSeconds,
+            if enableSeconds,
                let secondRow = seconds.firstIndex(of: second) {
                 selectRow(secondRow, inComponent: 2, animated: false)
-            }
-            
-            if showSeconds {
                 selectRow(isAm ? 0 : 1, inComponent: 3, animated: false)
+            } else {
+                selectRow(isAm ? 0 : 1, inComponent: 2, animated: false)
             }
         case .twentyFour:
-            let hour = currentTime.twentyFourHoursFormat.hours
-            let minute = currentTime.twentyFourHoursFormat.minutes
-            let second = currentTime.twentyFourHoursFormat.seconds
+            let hour = value.twentyFourHoursFormat.hours
+            let minute = value.twentyFourHoursFormat.minutes
+            let second = value.twentyFourHoursFormat.seconds
             
             if let hourRow = twentyFourHours.firstIndex(of: hour) {
                 selectRow(hourRow, inComponent: 0, animated: false)
@@ -142,7 +157,7 @@ public final class DroidUITimePicker: UIView {
                 selectRow(minuteRow, inComponent: 1, animated: false)
             }
             
-            if showSeconds,
+            if enableSeconds,
                let secondRow = seconds.firstIndex(of: second) {
                 selectRow(secondRow, inComponent: 2, animated: false)
             }
@@ -168,10 +183,7 @@ public final class DroidUITimePicker: UIView {
         let modified = realIndex % twelveHours.count
         return isHourAm(correctedIndex: modified)
     }
-}
-
-@available(iOS 13.0, *)
-extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
+    
     private func isComponentInfinite(_ component: Int) -> Bool {
         switch component {
         case 0:
@@ -184,7 +196,7 @@ extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
         case 1:
             return true
         case 2:
-            if showSeconds {
+            if enableSeconds {
                 return true
             }
             return false
@@ -205,7 +217,7 @@ extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
         case 1:
             return minutes.count
         case 2:
-            if showSeconds {
+            if enableSeconds {
                 return seconds.count
             }
             if timeFormat == .twelve {
@@ -213,23 +225,10 @@ extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
             }
             return 0
         default:
-            if showSeconds && timeFormat == .twelve {
+            if enableSeconds && timeFormat == .twelve {
                 return amPm.count
             }
             return 0
-        }
-    }
-    
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return numberOfRows(inComponent: component) * (isComponentInfinite(component) ? infiniteModifier : 1)
-    }
-    
-    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        switch timeFormat {
-        case .twelve:
-            return showSeconds ? 4 : 3
-        case .twentyFour:
-            return showSeconds ? 3 : 2
         }
     }
     
@@ -248,7 +247,7 @@ extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
             let modifiedIndex = row % minutes.count
             return String(format: "%02d", minutes[modifiedIndex])
         case 2:
-            if showSeconds {
+            if enableSeconds {
                 let modifiedIndex = row % seconds.count
                 return String(format: "%02d", seconds[modifiedIndex])
             }
@@ -258,7 +257,7 @@ extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
             }
             return ""
         default:
-            if showSeconds && timeFormat == .twelve {
+            if enableSeconds && timeFormat == .twelve {
                 let modifiedIndex = row % amPm.count
                 return "\(amPm[modifiedIndex])"
             }
@@ -271,11 +270,6 @@ extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
         indexSeenDebouncer.update(value: selected)
     }
     
-    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        sampleSelected()
-        return title(forRow: row, forComponent: component)
-    }
-
     private func didSelect(row: Int, inComponent component: Int) {
         var modifiedIndex: Int = 0
         switch component {
@@ -284,45 +278,95 @@ extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
             case .twelve:
                 modifiedIndex = row % twelveHours.count
                 let hour = twelveHours[modifiedIndex]
-                currentTime.twelveHoursFormat.hours = hour
+                value.twelveHoursFormat.hours = hour
+                value.twentyFourHoursFormat.hours = value.twelveHoursFormat.am ?? true ? hour : hour + 12
             case .twentyFour:
                 modifiedIndex = row % twentyFourHours.count
                 let hour = twentyFourHours[modifiedIndex]
-                currentTime.twentyFourHoursFormat.hours = hour
+                value.twentyFourHoursFormat.hours = hour
+                let isAm = hour <= 12
+                value.twelveHoursFormat.hours = isAm ? hour : hour - 12
+                value.twelveHoursFormat.am = isAm
             }
         case 1:
             modifiedIndex = row % minutes.count
             let minute = minutes[modifiedIndex]
-            currentTime.twentyFourHoursFormat.minutes = minute
-            currentTime.twelveHoursFormat.minutes = minute
+            value.twentyFourHoursFormat.minutes = minute
+            value.twelveHoursFormat.minutes = minute
         case 2:
-            if showSeconds {
+            if enableSeconds {
                 modifiedIndex = row % seconds.count
                 let second = seconds[modifiedIndex]
-                currentTime.twentyFourHoursFormat.seconds = second
-                currentTime.twelveHoursFormat.seconds = second
+                value.twentyFourHoursFormat.seconds = second
+                value.twelveHoursFormat.seconds = second
             } else if timeFormat == .twelve {
                 modifiedIndex = row % amPm.count
-                currentTime.twelveHoursFormat.am = modifiedIndex == 0
+                let isAm = modifiedIndex == 0
+                onAmPmSelected(am: isAm)
             }
         default:
-            if showSeconds && timeFormat == .twelve {
+            if enableSeconds && timeFormat == .twelve {
                 modifiedIndex = row % amPm.count
-                currentTime.twelveHoursFormat.am = modifiedIndex == 0
+                let isAm = modifiedIndex == 0
+                onAmPmSelected(am: isAm)
             }
         }
         selectRow(modifiedIndex, inComponent: component, animated: false)
     }
     
-    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        didSelect(row: row, inComponent: component)
-        sampleSelected()
+    private func onAmPmSelected(am: Bool) {
+        value.twelveHoursFormat.am = am
+        value.twentyFourHoursFormat.hours = am ? value.twelveHoursFormat.hours : value.twelveHoursFormat.hours + 12
+        if timeFormat == .twelve {
+            let selectedHourIndex = pickerView.selectedRow(inComponent: 0)
+            let isAm = isHourAm(realIndex: selectedHourIndex)
+            if (am && !isAm) || (!am && isAm) {
+                pickerView.selectRow(selectedHourIndex + 12, inComponent: 0, animated: false)
+            }
+        }
+    }
+    
+    // MARK: - Methods | Public API
+    
+    /// Set the current time selection to the given parameters.
+    /// - Parameter time: Time representing the time selection.
+    public func set(time: Time) {
+        self.value = time
+        onTimeFormatChanged()
+        reflectSelection()
+    }
+    
+    /// Set the text color for all titles in the picker view
+    /// - Parameter textColor: UIColor
+    public func set(textColor: UIColor) {
+        pickerView.setValue(
+            textColor,
+            forKeyPath: Constants.PickerProperties.textColor)
     }
 }
 
 @available(iOS 13.0, *)
-extension DroidUITimePicker: UIGestureRecognizerDelegate {
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return numberOfRows(inComponent: component) * (isComponentInfinite(component) ? infiniteModifier : 1)
+    }
+    
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        switch timeFormat {
+        case .twelve:
+            return enableSeconds ? 4 : 3
+        case .twentyFour:
+            return enableSeconds ? 3 : 2
+        }
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        sampleSelected()
+        return title(forRow: row, forComponent: component)
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        didSelect(row: row, inComponent: component)
+        sampleSelected()
     }
 }

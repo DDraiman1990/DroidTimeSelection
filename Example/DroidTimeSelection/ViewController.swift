@@ -17,8 +17,6 @@ class ViewController: UIViewController {
     @IBOutlet private weak var showSecondsSwitch: UISwitch!
     @IBOutlet private weak var timeLabel: UILabel!
     @IBOutlet private weak var timeFormatSwitch: UISwitch!
-    @IBOutlet private weak var manualTimePickerWrapper: UIView!
-    private let picker = DroidUITimePicker()
     
     // MARK: - Configurations
     
@@ -38,14 +36,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        manualTimePickerWrapper.addSubview(picker)
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        picker.topAnchor.constraint(equalTo: manualTimePickerWrapper.topAnchor).isActive = true
-        picker.bottomAnchor.constraint(equalTo: manualTimePickerWrapper.bottomAnchor).isActive = true
-        picker.leadingAnchor.constraint(equalTo: manualTimePickerWrapper.leadingAnchor).isActive = true
-        picker.trailingAnchor.constraint(equalTo: manualTimePickerWrapper.trailingAnchor).isActive = true
-        picker.timeFormat = self.timeFormat
-        picker.showSeconds = showSecondsSwitch.isOn
         onShowSecondsChanged(self)
     }
     
@@ -70,7 +60,7 @@ class ViewController: UIViewController {
             .Hybrid
             .viewController(
                 timeFormat: timeFormat,
-                showSeconds: self.showSecondsSwitch.isOn,
+                enableSeconds: self.showSecondsSwitch.isOn,
                 style: style)
         vc.selector.set(time: self.time)
         vc.selector.onCancelTapped = {
@@ -80,9 +70,8 @@ class ViewController: UIViewController {
         vc.selector.onOkTapped = {
             vc.dismiss(animated: true, completion: nil)
         }
-        
+        vc.selector.layer.cornerRadius = 24
         vc.selector.onSelectionChanged = { [weak self] value in
-            print("TimeInterval: \(value.timeInterval)")
             self?.setTime(with: value)
         }
         present(vc, animated: true, completion: nil)
@@ -90,11 +79,10 @@ class ViewController: UIViewController {
     
     @IBAction func onFormatValueChanged(_ sender: Any) {
         timeFormat = timeFormatSwitch.isOn ? .twentyFour : .twelve
-        picker.timeFormat = timeFormat
     }
+    
     @IBAction func onShowSecondsChanged(_ sender: Any) {
         let showSeconds = showSecondsSwitch.isOn
-        picker.showSeconds = showSeconds
         timeFormatter.allowedUnits = showSeconds ?
             [.hour, .minute, .second] :
             [.hour, .minute]

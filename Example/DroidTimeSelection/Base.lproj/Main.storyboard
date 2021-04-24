@@ -37,7 +37,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="lSz-8x-VT1">
-                                <rect key="frame" x="42" y="124" width="291" height="226"/>
+                                <rect key="frame" x="42" y="124" width="291" height="74"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="oYY-jV-mmf">
                                         <rect key="frame" x="0.0" y="0.0" width="291" height="31"/>
@@ -71,13 +71,6 @@
                                             </switch>
                                         </subviews>
                                     </stackView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yn4-C6-aJE">
-                                        <rect key="frame" x="0.0" y="86" width="291" height="140"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="140" id="Qyr-Um-3yS"/>
-                                        </constraints>
-                                    </view>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -95,7 +88,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="manualTimePickerWrapper" destination="Yn4-C6-aJE" id="mfP-dR-oMf"/>
                         <outlet property="showSecondsSwitch" destination="QZH-ke-vgN" id="PBs-ts-tYy"/>
                         <outlet property="timeFormatSwitch" destination="OFp-DA-wPu" id="sMt-7D-iJU"/>
                         <outlet property="timeLabel" destination="7s7-1E-bYA" id="fhJ-Oh-I8R"/>

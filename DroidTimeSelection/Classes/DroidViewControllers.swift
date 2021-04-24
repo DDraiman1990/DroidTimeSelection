@@ -43,15 +43,8 @@ public class DimmedViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.3, delay: 0.2) {
             self.dimView.alpha = 1.0
-        }
-    }
-    
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIView.animate(withDuration: 0.3) {
-            self.dimView.alpha = 0.0
         }
     }
 }

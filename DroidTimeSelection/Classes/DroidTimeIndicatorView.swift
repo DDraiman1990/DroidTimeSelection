@@ -73,13 +73,13 @@ final class DroidTimeIndicatorView: UIView {
     // MARK: - Properties
     
     private var timeIndicationFontSize: CGFloat {
-        if showSeconds {
+        if enableSeconds {
             return timeFormat == .twelve ? 48 : 56
         }
         return 60
     }
     private var amPmIndicatorFontSize: CGFloat {
-        return showSeconds ? 26 : 30
+        return enableSeconds ? 26 : 30
     }
     
     var timeFormat: DroidTimeFormat = .twelve {
@@ -88,9 +88,9 @@ final class DroidTimeIndicatorView: UIView {
         }
     }
     
-    var showSeconds: Bool = false {
+    var enableSeconds: Bool = false {
         didSet {
-            onShowSecondsChanged()
+            onEnableSecondsChanged()
         }
     }
     
@@ -232,15 +232,15 @@ final class DroidTimeIndicatorView: UIView {
         secondsLabelButton.titleLabel?.font = timeFont.withSize(timeIndicationFontSize)
     }
     
-    private func onShowSecondsChanged() {
-        secondsLabelButton.isHidden = !showSeconds
+    private func onEnableSecondsChanged() {
+        secondsLabelButton.isHidden = !enableSeconds
         refreshFonts()
         onTimeFormatChanged()
     }
     
     private func onTimeFormatChanged() {
         amPmStack.isHidden = timeFormat != .twelve
-        secondsLabelButton.isHidden = !showSeconds
+        secondsLabelButton.isHidden = !enableSeconds
         onCurrentTimeChanged()
     }
     
