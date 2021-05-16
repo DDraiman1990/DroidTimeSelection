@@ -46,7 +46,6 @@ public enum DroidFactory {
         }
     }
     
-    @available(iOS 13.0, *)
     public enum Picker {
         public static func view(
             timeFormat: DroidTimeFormat = .twentyFour,

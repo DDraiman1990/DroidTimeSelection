@@ -9,6 +9,11 @@
 import Foundation
 
 internal enum Constants {
+    internal enum FormatLocales {
+        internal static let twentyFourHours = Locale(identifier: "en_GB")
+        internal static let twelveHours = Locale(identifier: "en_US")
+    }
+    
     internal enum PickerProperties {
         internal static let textColor = "textColor"
     }

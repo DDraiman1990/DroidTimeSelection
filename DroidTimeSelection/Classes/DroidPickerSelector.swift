@@ -15,7 +15,6 @@ import UIKit
 ///
 /// - Change `timeFormat` to change the selection mode for the selector.
 /// - Change `style` to change the style of the selectors and the menu. See `PickerStyle` for more details about possible styling.
-@available(iOS 13.0, *)
 @IBDesignable
 public class DroidPickerSelector: UIView, PickerTimeSelector {
     
@@ -106,13 +105,7 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         return label
     }()
     
-    private lazy var timeDatePicker: DroidUITimePicker = {
-        let picker = DroidUITimePicker()
-        picker.onValueChanged = { [weak self] time in
-            self?.onPickerSelectionChanged(to: time)
-        }
-        return picker
-    }()
+    private var timePicker: TimePicking!
     
     private let contentStack: UIStackView = {
         let stack = UIStackView()
@@ -136,13 +129,18 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     }
     
     private func commonInit() {
+        if #available(iOS 13, *) {
+            timePicker = DroidFullTimePicker()
+        } else {
+            timePicker = DroidPartialTimePicker()
+        }
         addSubview(contentStack)
         contentStack.anchor(
             in: self,
             padding: .init(top: 26, left: 26, bottom: 26, right: 26))
         contentStack.addArrangedSubview(titleLabel)
-        contentStack.addArrangedSubview(timeDatePicker)
-        timeDatePicker.width(multiplier: 1.0, relativeTo: contentStack)
+        contentStack.addArrangedSubview(timePicker)
+        timePicker.width(multiplier: 1.0, relativeTo: contentStack)
         onStyleChanged()
         reset()
     }
@@ -150,14 +148,14 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     // MARK: - Helpers
     
     private func onTimeFormatChanged() {
-        timeDatePicker.timeFormat = timeFormat
-        timeDatePicker.enableSeconds = enableSeconds
+        timePicker.timeFormat = timeFormat
+        timePicker.enableSeconds = enableSeconds
     }
     
     private func onStyleChanged() {
         titleLabel.font = style.titleFont.withSize(26)
         titleLabel.textColor = style.titleColor
-        timeDatePicker.set(textColor: style.pickerColor)
+        timePicker.set(textColor: style.pickerColor)
         titleLabel.text = style.titleText
         onTimeFormatChanged()
     }
@@ -187,7 +185,7 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     }
     
     private func onCurrentTimeChanged() {
-        timeDatePicker.set(time: self.time)
+        timePicker.set(time: self.time)
     }
     
     // MARK: - Actions
@@ -214,4 +212,12 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     public func reset() {
         set(time: .init())
     }
+}
+
+protocol TimePicking: UIView {
+    var onValueChanged: ((Time) -> Void)? { get set }
+    var timeFormat: DroidTimeFormat { get set }
+    var enableSeconds: Bool { get set }
+    func set(textColor: UIColor)
+    func set(time: Time)
 }

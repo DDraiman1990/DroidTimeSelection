@@ -12,7 +12,7 @@ import Combine
 
 /// A time picker (similar to DatePicker when choosing time) that allows
 /// choosing seconds.
-public final class DroidUITimePicker: UIView {
+public final class DroidFullTimePicker: UIView, TimePicking {
     
     // MARK: - Properties | Constants
     
@@ -346,7 +346,7 @@ public final class DroidUITimePicker: UIView {
 }
 
 @available(iOS 13.0, *)
-extension DroidUITimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
+extension DroidFullTimePicker: UIPickerViewDataSource, UIPickerViewDelegate {
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return numberOfRows(inComponent: component) * (isComponentInfinite(component) ? infiniteModifier : 1)
     }

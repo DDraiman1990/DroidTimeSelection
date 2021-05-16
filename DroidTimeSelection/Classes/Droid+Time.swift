@@ -35,6 +35,19 @@ public struct Time: Equatable {
             second: twentyFourHoursFormat.seconds,
             of: date)
     }
+    
+    public mutating func set(hour: Int, minutes: Int, seconds: Int) {
+        let isAm = hour <= 12
+        twelveHoursFormat.am = isAm
+        twelveHoursFormat.hours = isAm ? hour : hour - 12
+        twelveHoursFormat.minutes = minutes
+        twelveHoursFormat.seconds = seconds
+        
+        twentyFourHoursFormat.am = nil
+        twelveHoursFormat.hours = hour
+        twelveHoursFormat.minutes = minutes
+        twelveHoursFormat.seconds = seconds
+    }
 }
 
 public struct TimeOfDay: Equatable {
