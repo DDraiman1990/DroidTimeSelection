@@ -9,10 +9,12 @@
 import UIKit
 import DroidTimeSelection
 
+@available(iOS 13.0, *)
 class ViewController: UIViewController {
     
     // MARK: - Outlets
     
+    @IBOutlet private weak var showSecondsSwitch: UISwitch!
     @IBOutlet private weak var timeLabel: UILabel!
     @IBOutlet private weak var timeFormatSwitch: UISwitch!
     
@@ -25,7 +27,7 @@ class ViewController: UIViewController {
     
     private let timeFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
+        formatter.allowedUnits = [.hour, .minute, .second]
         formatter.zeroFormattingBehavior = .pad //Depending on AM or PM
         return formatter
     }()
@@ -34,7 +36,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTime(with: time)
+        onShowSecondsChanged(self)
     }
     
     // MARK: - Helpers
@@ -54,7 +56,12 @@ class ViewController: UIViewController {
         style.cancelButtonContent = .text(title: "CANCEL")
         style.cancelButtonColor = .white
         style.submitButtonColor = .white
-        let vc = DroidFactory.Hybrid.viewController(timeFormat: timeFormat, style: style)
+        let vc = DroidFactory
+            .Hybrid
+            .viewController(
+                timeFormat: timeFormat,
+                enableSeconds: self.showSecondsSwitch.isOn,
+                style: style)
         vc.selector.set(time: self.time)
         vc.selector.onCancelTapped = {
             vc.dismiss(animated: true, completion: nil)
@@ -63,9 +70,8 @@ class ViewController: UIViewController {
         vc.selector.onOkTapped = {
             vc.dismiss(animated: true, completion: nil)
         }
-        
+        vc.selector.layer.cornerRadius = 24
         vc.selector.onSelectionChanged = { [weak self] value in
-            print("TimeInterval: \(value.timeInterval)")
             self?.setTime(with: value)
         }
         present(vc, animated: true, completion: nil)
@@ -73,6 +79,14 @@ class ViewController: UIViewController {
     
     @IBAction func onFormatValueChanged(_ sender: Any) {
         timeFormat = timeFormatSwitch.isOn ? .twentyFour : .twelve
+    }
+    
+    @IBAction func onShowSecondsChanged(_ sender: Any) {
+        let showSeconds = showSecondsSwitch.isOn
+        timeFormatter.allowedUnits = showSeconds ?
+            [.hour, .minute, .second] :
+            [.hour, .minute]
+        setTime(with: time)
     }
 }
 

@@ -36,37 +36,59 @@
                                     <action selector="onShowTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="d94-YJ-672"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="oYY-jV-mmf">
-                                <rect key="frame" x="42" y="124" width="291" height="31"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="lSz-8x-VT1">
+                                <rect key="frame" x="42" y="124" width="291" height="74"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use 24-hour format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ed3-RR-Kd9">
-                                        <rect key="frame" x="0.0" y="0.0" width="226" height="31"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="OFp-DA-wPu">
-                                        <rect key="frame" x="242" y="0.0" width="51" height="31"/>
-                                        <connections>
-                                            <action selector="onFormatValueChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="DZh-Rf-lB1"/>
-                                        </connections>
-                                    </switch>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="oYY-jV-mmf">
+                                        <rect key="frame" x="0.0" y="0.0" width="291" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use 24-hour format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ed3-RR-Kd9">
+                                                <rect key="frame" x="0.0" y="0.0" width="226" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="OFp-DA-wPu">
+                                                <rect key="frame" x="242" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="onFormatValueChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="DZh-Rf-lB1"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="me9-V6-U9P">
+                                        <rect key="frame" x="0.0" y="43" width="291" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Seconds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fHz-pl-hnq">
+                                                <rect key="frame" x="0.0" y="0.0" width="226" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QZH-ke-vgN">
+                                                <rect key="frame" x="242" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="onShowSecondsChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="AtR-ls-vuL"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="lSz-8x-VT1" secondAttribute="trailing" constant="26" id="1fC-v3-8SO"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="6A8-YO-U5z" secondAttribute="bottom" constant="26" id="3p1-lt-CUF"/>
                             <constraint firstItem="7s7-1E-bYA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="26" id="4oT-DG-LLM"/>
-                            <constraint firstItem="oYY-jV-mmf" firstAttribute="top" secondItem="7s7-1E-bYA" secondAttribute="bottom" constant="26" id="7ZX-TV-nHC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7s7-1E-bYA" secondAttribute="trailing" constant="26" id="EHO-r4-xux"/>
                             <constraint firstItem="6A8-YO-U5z" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="26" id="ICk-aG-XLN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="oYY-jV-mmf" secondAttribute="trailing" constant="26" id="Ydd-2r-Cry"/>
+                            <constraint firstItem="lSz-8x-VT1" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="26" id="ROe-Ez-G9e"/>
+                            <constraint firstItem="lSz-8x-VT1" firstAttribute="top" secondItem="7s7-1E-bYA" secondAttribute="bottom" constant="26" id="e6d-Y3-iPs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6A8-YO-U5z" secondAttribute="trailing" constant="26" id="iPW-L1-7YO"/>
-                            <constraint firstItem="oYY-jV-mmf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="26" id="lne-WZ-Zn9"/>
                             <constraint firstItem="7s7-1E-bYA" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="26" id="xv1-ZI-gjM"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="showSecondsSwitch" destination="QZH-ke-vgN" id="PBs-ts-tYy"/>
                         <outlet property="timeFormatSwitch" destination="OFp-DA-wPu" id="sMt-7D-iJU"/>
                         <outlet property="timeLabel" destination="7s7-1E-bYA" id="fhJ-Oh-I8R"/>
                     </connections>

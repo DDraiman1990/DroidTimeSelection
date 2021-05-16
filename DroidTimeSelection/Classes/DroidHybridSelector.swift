@@ -121,6 +121,13 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         return currentTime
     }
     
+    /// Should seconds be selectable
+    public var enableSeconds: Bool = false {
+        didSet {
+            onTimeFormatChanged()
+        }
+    }
+    
     //Callbacks
     
     /// Will be called when the submit button, in the hybrid menu, is tapped.
@@ -232,17 +239,17 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         clockSelector.set(time: time)
         hourPicker.onSelectionChanged = { [weak self] time in
             self?.currentTime = time
-            if let value = self?.clockSelector.time, value != time {
-                self?.clockSelector.set(time: time)
-            }
+//            if let value = self?.clockSelector.time, value != time {
+//                self?.clockSelector.set(time: time)
+//            }
             self?.onSelectionChanged?(time)
         }
         
         clockSelector.onSelectionChanged = { [weak self] time in
             self?.currentTime = time
-            if let value = self?.hourPicker.time, value != time {
-                self?.hourPicker.set(time: time)
-            }
+//            if let value = self?.hourPicker.time, value != time {
+//                self?.hourPicker.set(time: time)
+//            }
             self?.onSelectionChanged?(time)
         }
         
@@ -276,8 +283,10 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     }
     
     private func onTimeFormatChanged() {
+        clockSelector.enableSeconds = enableSeconds
         clockSelector.timeFormat = timeFormat
         hourPicker.timeFormat = timeFormat
+        hourPicker.enableSeconds = enableSeconds
     }
     
     private func onStyleChanged() {
@@ -299,26 +308,18 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
     
     // MARK: - Public Interface
     
-    /// Set the current time selection to the given parameters.
-    /// - Parameters:
-    ///   - hour: the hour number.
-    ///   - minutes: the amount of minutes.
-    ///   - am: if time is am/pm or nil for 24 hours format.
-    public func set(hour: Int, minutes: Int, am: Bool?) {
-        clockSelector.set(hour: hour, minutes: minutes, am: am)
-        hourPicker.set(hour: hour, minutes: minutes, am: am)
+    public func set(hour: Int, minutes: Int, seconds: Int, am: Bool?) {
+        clockSelector.set(hour: hour, minutes: minutes, seconds: seconds, am: am)
+        hourPicker.set(hour: hour, minutes: minutes, seconds: seconds, am: am)
         self.currentTime = clockSelector.time
     }
     
-    /// Set the current time selection to the given parameters.
-    /// - Parameter time: Time representing the time selection.
     public func set(time: Time) {
         self.currentTime = time
         hourPicker.set(time: time)
         clockSelector.set(time: time)
     }
     
-    /// Reset the component. Sets time to 00:00 or 12am.
     public func reset() {
         onModeChanged()
         clockSelector.reset()
@@ -334,6 +335,8 @@ public class DroidHybridSelector: UIView, HybridTimeSelector {
         refreshModeButton()
         clockSelector.isHidden = mode != .clock
         hourPicker.isHidden = mode != .picker
+        clockSelector.set(time: time)
+        hourPicker.set(time: time)
     }
     
     @objc private func cancelTapped() {

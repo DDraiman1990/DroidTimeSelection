@@ -15,9 +15,11 @@ final class DroidClockCollectionView: UIView {
     
     var onHourSelectionEnded: ((Int) -> Void)?
     var onMinuteSelectionEnded: ((Int) -> Void)?
+    var onSecondSelectionEnded: ((Int) -> Void)?
     
     var onHourSelected: ((Int) -> Void)?
     var onMinuteSelected: ((Int) -> Void)?
+    var onSecondSelected: ((Int) -> Void)?
     
     // MARK: - Storyboard Properties
     
@@ -72,16 +74,24 @@ final class DroidClockCollectionView: UIView {
     private let outerHours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     private let innerHours = [0, 13, 14, 15, 16, 17, 18, 19, 20 ,21, 22, 23]
     private let minutes = Array(0...59)
+    private let seconds = Array(0...59)
     
     private var selectedHour: Int = 0
     private var selectedMinute: Int = 0
+    private var selectedSecond: Int = 0
     
-    internal var currentMode: ClockSelectionMode = .hour {
+    public var currentMode: ClockSelectionMode = .hour {
         didSet {
             reloadData()
         }
     }
-    internal var timeFormat: DroidTimeFormat = .twelve {
+    public var timeFormat: DroidTimeFormat = .twelve {
+        didSet {
+            reloadData()
+        }
+    }
+    
+    public var enableSeconds: Bool = false {
         didSet {
             reloadData()
         }
@@ -180,6 +190,7 @@ final class DroidClockCollectionView: UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.moveIndicatorToHour(self.selectedHour)
             self.moveIndicatorToMinute(self.selectedMinute)
+            self.moveIndicatorToSecond(self.selectedSecond)
         }
     }
     
@@ -217,13 +228,21 @@ final class DroidClockCollectionView: UIView {
             case .minutes:
                 selectedMinute = selection.0.value
                 onMinuteSelected?(selection.0.value)
+            case .seconds:
+                selectedSecond = selection.0.value
+                onSecondSelected?(selection.0.value)
             }
         case .ended:
             if cellSelected != nil {
                 switch currentMode {
                 case .hour:
                     onHourSelectionEnded?(selectedHour)
-                case .minutes: break
+                case .minutes:
+                    if enableSeconds {
+                        onMinuteSelectionEnded?(selectedMinute)
+                    }
+                default:
+                    break
                 }
             }
         default: break
@@ -249,6 +268,10 @@ final class DroidClockCollectionView: UIView {
             selectedMinute = selection.0.value
             onMinuteSelected?(selection.0.value)
             onMinuteSelectionEnded?(selection.0.value)
+        case .seconds:
+            selectedSecond = selection.0.value
+            onSecondSelected?(selection.0.value)
+            onSecondSelectionEnded?(selection.0.value)
         }
     }
     
@@ -266,10 +289,18 @@ final class DroidClockCollectionView: UIView {
                 time.twelveHoursFormat.minutes :
                 time.twentyFourHoursFormat.minutes
             moveIndicatorToMinute(minutes)
+        case .seconds:
+            let seconds = timeFormat == .twelve ?
+                time.twelveHoursFormat.seconds :
+                time.twentyFourHoursFormat.seconds
+            moveIndicatorToSecond(seconds)
         }
     }
     
     public func moveIndicatorToHour(_ hour: Int) {
+        guard currentMode == .hour else {
+            return
+        }
         var index: Array<Int>.Index
         var indexPath: IndexPath
         if timeFormat == .twelve {
@@ -297,7 +328,27 @@ final class DroidClockCollectionView: UIView {
     }
     
     public func moveIndicatorToMinute(_ minute: Int) {
+        guard currentMode == .minutes else {
+            return
+        }
         let index = minutes.firstIndex(of: minute) ?? 0
+        let indexPath = IndexPath(item: index, section: 0)
+        guard let cell = collectionView
+            .cellForItem(at: indexPath) as? DroidClockSelectorCell else {
+                return
+        }
+        let size = circularCollectionLayout.sizeForItem(at: indexPath)
+        moveIndicator(
+            to: convert(cell.center, from: collectionView),
+            selectionSize: size,
+            emptyIndicatorCircle: cell.isTransparent)
+    }
+    
+    public func moveIndicatorToSecond(_ second: Int) {
+        guard currentMode == .seconds else {
+            return
+        }
+        let index = seconds.firstIndex(of: second) ?? 0
         let indexPath = IndexPath(item: index, section: 0)
         guard let cell = collectionView
             .cellForItem(at: indexPath) as? DroidClockSelectorCell else {
@@ -317,9 +368,11 @@ final class DroidClockCollectionView: UIView {
         case .twelve:
             selectedHour = time.twelveHoursFormat.hours
             selectedMinute = time.twelveHoursFormat.minutes
+            selectedSecond = time.twelveHoursFormat.seconds
         case .twentyFour:
             selectedHour = time.twentyFourHoursFormat.hours
             selectedMinute = time.twentyFourHoursFormat.minutes
+            selectedSecond = time.twentyFourHoursFormat.seconds
         }
     }
     
@@ -387,16 +440,59 @@ extension DroidClockCollectionView: UICollectionViewDelegate, UICollectionViewDa
                                numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return currentMode == .minutes ?
-                minutes.count
-                : outerHours.count
+            switch currentMode {
+            case .hour:
+                return outerHours.count
+            case .minutes:
+                return minutes.count
+            case .seconds:
+                return seconds.count
+            }
         case 1:
-            return currentMode == .minutes || timeFormat == .twelve ?
-                0
-                : innerHours.count
+            switch currentMode {
+            case .hour:
+                return timeFormat == .twelve ? 0 : innerHours.count
+            case .minutes, .seconds:
+                return 0
+            }
         default:
             return 0
         }
+    }
+    
+    enum CellPresentConfig {
+        case showAll, showEvery(amount: Int)
+    }
+    
+    private func config(cell: DroidClockSelectorCell,
+                        index: Int,
+                        values: [Int],
+                        fontSize: Int,
+                        presentation: CellPresentConfig = .showAll) -> Bool {
+        guard values.indices ~= index else {
+            return false
+        }
+        let selection = values[index]
+        var bgColor: UIColor = outerCircleBackgroundColor
+        var label: String = Formatters.cellTimeFormatter.string(
+            from: TimeInterval(selection * 3600)) ?? ""
+        switch presentation {
+        case .showAll:
+            break
+        case .showEvery(let amount):
+            let shouldDisplayCustomization = selection % amount == 0
+            if !shouldDisplayCustomization {
+                label = ""
+                bgColor = .clear
+            }
+        }
+        cell.setup(
+            label: label,
+            value: selection,
+            bgColor: bgColor,
+            titleColor: outerCircleTextColor,
+            titleFont: numbersFont.withSize(18))
+        return true
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -413,34 +509,29 @@ extension DroidClockCollectionView: UICollectionViewDelegate, UICollectionViewDa
             case 0:
                 switch currentMode {
                 case .hour:
-                    guard outerHours.indices ~= indexPath.row else {
+                    guard config(cell: cell,
+                           index: indexPath.row,
+                           values: outerHours,
+                           fontSize: 18,
+                           presentation: .showAll) else {
                         return UICollectionViewCell()
                     }
-                    let selection = outerHours[indexPath.row]
-                    cell.setup(
-                        label: "\(selection)",
-                        value: selection,
-                        bgColor: outerCircleBackgroundColor,
-                        titleColor: outerCircleTextColor,
-                        titleFont: numbersFont.withSize(18))
                 case .minutes:
-                    guard minutes.indices ~= indexPath.row else {
+                    guard config(cell: cell,
+                           index: indexPath.row,
+                           values: minutes,
+                           fontSize: 14,
+                           presentation: .showEvery(amount: 5)) else {
                         return UICollectionViewCell()
                     }
-                    let selection = minutes[indexPath.row]
-                    let shouldDisplayCustomization = selection % 5 == 0
-                    let label =
-                         shouldDisplayCustomization ?
-                        Formatters.cellTimeFormatter.string(
-                                from: TimeInterval(selection * 3600)) ?? "N/A"
-                            : ""
-                    let bgColor: UIColor = shouldDisplayCustomization ? outerCircleBackgroundColor : .clear
-                    cell.setup(
-                        label: label,
-                        value: selection,
-                        bgColor: bgColor,
-                        titleColor: outerCircleTextColor,
-                        titleFont: numbersFont.withSize(18))
+                case .seconds:
+                    guard config(cell: cell,
+                           index: indexPath.row,
+                           values: seconds,
+                           fontSize: 14,
+                           presentation: .showEvery(amount: 5)) else {
+                        return UICollectionViewCell()
+                    }
                 }
             case 1:
                 guard timeFormat == .twentyFour else {

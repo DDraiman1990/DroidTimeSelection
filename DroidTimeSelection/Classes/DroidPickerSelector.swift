@@ -74,6 +74,13 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         }
     }
     
+    /// Should seconds be selectable
+    public var enableSeconds: Bool = false {
+        didSet {
+            onTimeFormatChanged()
+        }
+    }
+    
     // Callbacks
     
     /// Will be called whenever the picker selection changes.
@@ -98,18 +105,7 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         return label
     }()
     
-    private lazy var timeDatePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .time
-        if #available(iOS 13.4, *) {
-            picker.preferredDatePickerStyle = .wheels
-        }
-        picker.addTarget(
-            self,
-            action: #selector(onPickerSelectionChanged(_:)),
-            for: .valueChanged)
-        return picker
-    }()
+    private var timePicker: TimePicking!
     
     private let contentStack: UIStackView = {
         let stack = UIStackView()
@@ -133,13 +129,18 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     }
     
     private func commonInit() {
+        if #available(iOS 13, *) {
+            timePicker = DroidFullTimePicker()
+        } else {
+            timePicker = DroidPartialTimePicker()
+        }
         addSubview(contentStack)
         contentStack.anchor(
             in: self,
             padding: .init(top: 26, left: 26, bottom: 26, right: 26))
         contentStack.addArrangedSubview(titleLabel)
-        contentStack.addArrangedSubview(timeDatePicker)
-        
+        contentStack.addArrangedSubview(timePicker)
+        timePicker.width(multiplier: 1.0, relativeTo: contentStack)
         onStyleChanged()
         reset()
     }
@@ -147,20 +148,14 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
     // MARK: - Helpers
     
     private func onTimeFormatChanged() {
-        switch timeFormat {
-        case .twelve:
-            timeDatePicker.locale = Constants.FormatLocales.twelveHours
-        case .twentyFour:
-            timeDatePicker.locale = Constants.FormatLocales.twentyFourHours
-        }
+        timePicker.timeFormat = timeFormat
+        timePicker.enableSeconds = enableSeconds
     }
     
     private func onStyleChanged() {
         titleLabel.font = style.titleFont.withSize(26)
         titleLabel.textColor = style.titleColor
-        timeDatePicker.setValue(
-            style.pickerColor,
-            forKeyPath: Constants.PickerProperties.textColor)
+        timePicker.set(textColor: style.pickerColor)
         titleLabel.text = style.titleText
         onTimeFormatChanged()
     }
@@ -184,47 +179,45 @@ public class DroidPickerSelector: UIView, PickerTimeSelector {
         currentTime.twelveHoursFormat.minutes = value
     }
     
+    private func selectSeconds(value: Int) {
+        currentTime.twentyFourHoursFormat.seconds = value
+        currentTime.twelveHoursFormat.seconds = value
+    }
+    
     private func onCurrentTimeChanged() {
-        timeDatePicker.date = self.time.date(relativeTo: Date()) ?? Date()
+        timePicker.set(time: self.time)
     }
     
     // MARK: - Actions
     
-    @objc private func onPickerSelectionChanged(_ picker: UIDatePicker) {
-        let components = Calendar
-            .current
-            .dateComponents([.hour, .minute],
-                            from: picker.date)
-        guard let hour = components.hour, let minutes = components.minute else {
-            return
-        }
-        selectHour(value: hour)
-        selectMinutes(value: minutes)
+    private func onPickerSelectionChanged(to value: Time) {
+        self.currentTime = value
     }
     
     // MARK: - Public Interface
 
-    /// Set the current time selection to the given parameters.
-    /// - Parameters:
-    ///   - hour: the hour number.
-    ///   - minutes: the amount of minutes.
-    ///   - am: if time is am/pm or nil for 24 hours format.
-    public func set(hour: Int, minutes: Int, am: Bool?) {
+    public func set(hour: Int, minutes: Int, seconds: Int, am: Bool?) {
         currentTime.twelveHoursFormat.am = am
         self.selectHour(value: hour)
         self.selectMinutes(value: minutes)
+        self.selectSeconds(value: seconds)
         onCurrentTimeChanged()
     }
     
-    /// Set the current time selection to the given parameters.
-    /// - Parameter time: Time representing the time selection.
     public func set(time: Time) {
         currentTime = time
         onCurrentTimeChanged()
     }
     
-    /// Reset the component. Sets time to 00:00 or 12am.
     public func reset() {
         set(time: .init())
     }
+}
+
+protocol TimePicking: UIView {
+    var onValueChanged: ((Time) -> Void)? { get set }
+    var timeFormat: DroidTimeFormat { get set }
+    var enableSeconds: Bool { get set }
+    func set(textColor: UIColor)
+    func set(time: Time)
 }
