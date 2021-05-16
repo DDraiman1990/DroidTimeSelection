@@ -60,15 +60,15 @@
 /* Begin PBXFileReference section */
 		0D0F948552F5704F655F05258FA19BA5 /* DroidClockSelectorCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidClockSelectorCell.swift; path = DroidTimeSelection/Classes/DroidClockSelectorCell.swift; sourceTree = "<group>"; };
 		0F3FB4BDD693F4AE180EF1AA246D2D7B /* Pods-DroidTimeSelection_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DroidTimeSelection_Example-umbrella.h"; sourceTree = "<group>"; };
-		0FFB88B803A5DB9A7D2C273F3C8B536C /* DroidTimeSelection.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = DroidTimeSelection.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0FFB88B803A5DB9A7D2C273F3C8B536C /* DroidTimeSelection.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = DroidTimeSelection.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		12A68CFFFCFC7726F248172383AA59C9 /* Droid+Formatters.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Droid+Formatters.swift"; path = "DroidTimeSelection/Classes/Droid+Formatters.swift"; sourceTree = "<group>"; };
-		16E258AB196611E76F07F9C9F5C54EA2 /* Pods_DroidTimeSelection_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DroidTimeSelection_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16E258AB196611E76F07F9C9F5C54EA2 /* Pods_DroidTimeSelection_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_DroidTimeSelection_Example.framework; path = "Pods-DroidTimeSelection_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2446F9FBC48D519CF7385ED8FB1B5572 /* Pods-DroidTimeSelection_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DroidTimeSelection_Example-dummy.m"; sourceTree = "<group>"; };
-		2B752F1362A39837496E74853D0BB6E6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2B752F1362A39837496E74853D0BB6E6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		36EF225EC138DBD001AF3535923411CB /* DroidHybridSelector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidHybridSelector.swift; path = DroidTimeSelection/Classes/DroidHybridSelector.swift; sourceTree = "<group>"; };
 		3B8992B839BA2AB2EE0460B2C878796A /* DroidClockSelector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidClockSelector.swift; path = DroidTimeSelection/Classes/DroidClockSelector.swift; sourceTree = "<group>"; };
 		43E2B8970D4DF4998ED8C004229E7B44 /* DroidViewControllers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidViewControllers.swift; path = DroidTimeSelection/Classes/DroidViewControllers.swift; sourceTree = "<group>"; };
-		47157597A6814654CAE73A73E9AD6CFD /* DroidTimeSelection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DroidTimeSelection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47157597A6814654CAE73A73E9AD6CFD /* DroidTimeSelection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = DroidTimeSelection.framework; path = DroidTimeSelection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C3F2FE3E9A26A5C0D9CCDC446AFB705 /* Pods-DroidTimeSelection_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroidTimeSelection_Example.release.xcconfig"; sourceTree = "<group>"; };
 		523BFC4089B7F8588046C9FF5397991C /* Pods-DroidTimeSelection_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DroidTimeSelection_Tests-umbrella.h"; sourceTree = "<group>"; };
 		5906268B794B39BDC46E05E114139B1C /* Pods-DroidTimeSelection_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroidTimeSelection_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -87,7 +87,7 @@
 		8E5D6B9D2493897020B742153DEE0D57 /* Pods-DroidTimeSelection_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DroidTimeSelection_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		98850C43BD216BFCBD925929BCD74ED0 /* DroidStyles.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidStyles.swift; path = DroidTimeSelection/Classes/DroidStyles.swift; sourceTree = "<group>"; };
 		99F8C81A76044781D89027CAFE741DFD /* DroidTimeSelection.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DroidTimeSelection.debug.xcconfig; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9EC184EA8CB1DA3D75C9B8C72E7D49E0 /* Pods-DroidTimeSelection_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroidTimeSelection_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		A61BAFE2F3553195121AF2B29EB9EDF4 /* DroidTimeIndicatorView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidTimeIndicatorView.swift; path = DroidTimeSelection/Classes/DroidTimeIndicatorView.swift; sourceTree = "<group>"; };
 		A6731B9145554106023386B40CD69EFE /* DroidCollectionViewCircularLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidCollectionViewCircularLayout.swift; path = DroidTimeSelection/Classes/DroidCollectionViewCircularLayout.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 		C538CA27A0DDBAAAE49E1B86F92BDBE5 /* DroidTimeSelection-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "DroidTimeSelection-Info.plist"; sourceTree = "<group>"; };
 		C9109E0AAF6C3E7DFA2B1520C5B67BF4 /* Pods-DroidTimeSelection_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DroidTimeSelection_Example-Info.plist"; sourceTree = "<group>"; };
 		C9DEF039BFC5E668080DFA9C73173AFE /* DroidFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DroidFactory.swift; path = DroidTimeSelection/Classes/DroidFactory.swift; sourceTree = "<group>"; };
-		CAE135B8D6361331AB5B3D4319E09A7D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		CAE135B8D6361331AB5B3D4319E09A7D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		CB2467B3E2634D6D2104E0CA348DFECF /* Pods-DroidTimeSelection_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DroidTimeSelection_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		D245E0514AAC1A2B9A6D5EA2F383E90F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		D332D14BC7A80D833A19DA7D31AFB8BC /* Pods-DroidTimeSelection_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DroidTimeSelection_Example-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 		EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F14882C63EE9186DAA1D71881DFF647F /* Pods-DroidTimeSelection_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DroidTimeSelection_Tests.modulemap"; sourceTree = "<group>"; };
 		F2BCFCFAC28E38FDEFB29ABBE52ADD93 /* Pods-DroidTimeSelection_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DroidTimeSelection_Tests-Info.plist"; sourceTree = "<group>"; };
-		F713F0E86A104CB9469FC71ADBF5E395 /* Pods_DroidTimeSelection_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DroidTimeSelection_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F713F0E86A104CB9469FC71ADBF5E395 /* Pods_DroidTimeSelection_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_DroidTimeSelection_Tests.framework; path = "Pods-DroidTimeSelection_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -713,7 +713,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
